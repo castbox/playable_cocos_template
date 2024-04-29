@@ -1,0 +1,12 @@
+{
+    "store": {
+        "google": "https://play.google.com/store/apps/details?id=solitaire.patience.card.games.klondike.free",
+        "ios": "https://apps.apple.com/us/app/id1564391515"
+    },
+    "touch": {
+        "moving_distance": 100
+    },
+    "poker":{
+        "flip_time": 0.3
+    }
+}

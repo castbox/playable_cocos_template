@@ -1,0 +1,139 @@
+import { Component, director, instantiate, Node, resources, Prefab, sys, Vec3, JsonAsset, AudioClip, Mat4, UITransform } from "cc";
+
+export class utility
+{
+    public static findFirstNodeOfType<T extends Component>(type: new (...args: any[]) => T): T | null
+    {
+        const walk = (target: Node): T | null =>
+        {
+            const comp = target.getComponent(type);
+            if (comp)
+            {
+                return comp;
+            }
+
+            if (target.children)
+            {
+                for (const child of target.children)
+                {
+                    const result = walk(child);
+                    if (result)
+                    {
+                        return result;
+                    }
+                }
+            }
+
+            return null;
+        }
+
+        return walk(director.getScene());
+    }
+
+    public static formatNumberWithSign(num: number): string
+    {
+        const sign = Math.sign(num);
+        if (sign === 1)
+        {
+            return `+${num}`;
+        }
+        else if (sign === -1)
+        {
+            return `${num}`;
+        }
+        else if (sign === 0 || sign === -0)
+        {
+            return `±0`;
+        }
+        else
+        {
+            return 'NaN';
+        }
+    }
+
+    public static createNode<T extends Component>(type: new () => T, name: string, parent: Node = null): T
+    {
+        let node = new Node(name).addComponent(type);
+
+        if (parent != null)
+        {
+            parent.addChild(node.node);
+        }
+        else
+        {
+            let sceneNode = director.getScene();
+            sceneNode.addChild(node.node);
+        }
+
+        return node
+    }
+
+    public static Install()
+    {
+        window.install && window.install()
+    }
+
+    public static GameEnd()
+    {
+        window.gameEnd && window.gameEnd()
+    }
+
+    public static JumpToStore(googleStoreUrl, appleStoreUrl)
+    {
+        this.Install()
+
+        console.log("googleStoreUrl: " + googleStoreUrl)
+        console.log("appleStoreUrl: " + appleStoreUrl)
+
+        if (window.mraid == null)
+        {
+            window.open(sys.os == sys.OS.IOS ? appleStoreUrl : googleStoreUrl);
+        } else
+        {
+            window.mraid.open(sys.os == sys.OS.IOS ? appleStoreUrl : googleStoreUrl);
+        }
+    }
+
+    public static setNodeWorldPositionToTarget(node: Node, target: Node | Vec3)
+    {
+        // 获取 targetNode 的世界坐标
+        let targetWorldPosition: Vec3;
+        if (target instanceof Node)
+        {
+            targetWorldPosition = target.worldPosition;
+        }
+        else
+        {
+            targetWorldPosition = target;
+        }
+
+        node.setWorldPosition(targetWorldPosition);
+    }
+
+    public static setParent(node: Node, parent: Node, worldPositionStay: boolean = false)
+    {
+        if (worldPositionStay)
+        {
+            const worldPosition = node.worldPosition;
+            parent.addChild(node)
+            const localPosition = parent.getComponent(UITransform).convertToNodeSpaceAR(worldPosition);
+            node.setPosition(localPosition);
+        }
+        else
+        {
+            parent.addChild(node)
+            node.position = Vec3.ZERO;
+        }
+    }
+
+    public static sleep(seconds: number): Promise<void>
+    {
+        return new Promise(resolve =>
+        {
+            setTimeout(() =>
+            {
+                resolve();
+            }, seconds * 1000);
+        });
+    }
+}
