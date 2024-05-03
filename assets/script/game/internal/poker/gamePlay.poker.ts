@@ -37,15 +37,15 @@ export class GamePlayPoker extends PlayableDraggable
 
     private _back: Sprite
     private _face: Sprite
-    private _belongTo: IGamePlayPokerContainer
+    private _belongsTo: IGamePlayPokerContainer
     private _animation: Animation
-    public set BelongTo(value: IGamePlayPokerContainer)
+    public set BelongsTo(value: IGamePlayPokerContainer)
     {
-        this._belongTo = value;
+        this._belongsTo = value;
     }
-    public get BelongTo(): IGamePlayPokerContainer
+    public get BelongsTo(): IGamePlayPokerContainer
     {
-        return this._belongTo;
+        return this._belongsTo;
     }
 
     public get Described(): string
@@ -80,7 +80,7 @@ export class GamePlayPoker extends PlayableDraggable
 
     protected override update(deltaTime: number)
     {
-
+        
     }
 
     public initByFace(spriteFrame = null)
@@ -151,7 +151,7 @@ export class GamePlayPoker extends PlayableDraggable
         super.onDragStart();
         PlayableManagerEvent.getInstance().emit("onSceneClick", this);
 
-        const popLst = this.BelongTo.moveOut(this)
+        const popLst = this.BelongsTo.moveOut(this)
         if (popLst.length > 0)
         {
             PlayableManagerEvent.getInstance().emit("onPokerDragStart", popLst, this.lastDragInfo.StartWSPos)

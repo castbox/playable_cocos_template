@@ -39,7 +39,7 @@ export class GamePlayPokerStock extends Component implements IGamePlayPokerConta
 
     public moveIn(poker: GamePlayPoker): void
     {
-        poker.BelongTo = this;
+        poker.BelongsTo = this;
         utility.setParent(poker.node, this.StockNode)
         this._stock.push(poker);
     }

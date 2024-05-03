@@ -57,7 +57,7 @@ export class GamePlayPokerTableau extends Component implements IGamePlayPokerCon
     {
         this._root = this.node.getChildByName("root");
         this.pokerStack = this.node.getComponentsInChildren(GamePlayPoker);
-        this.pokerStack.forEach((poker) => { poker.BelongTo = this; });
+        this.pokerStack.forEach((poker) => { poker.BelongsTo = this; });
         this._layout = this._root.getComponent(Layout);
         this._offsetY = this.getComponent(Sprite).node.getComponent(UITransform).contentSize.y + this._layout.spacingY;
     }
@@ -101,12 +101,12 @@ export class GamePlayPokerTableau extends Component implements IGamePlayPokerCon
 
     public moveIn(poker: GamePlayPoker)
     {
-        if (poker.BelongTo)
+        if (poker.BelongsTo)
         {
-            poker.BelongTo.remove(poker)
+            poker.BelongsTo.remove(poker)
         }
 
-        poker.BelongTo = this;
+        poker.BelongsTo = this;
         utility.setParent(poker.node, this._root);
         this.pokerStack.push(poker);
         PlayableManagerEvent.getInstance().emit("onPokerAddTableau", this, poker);

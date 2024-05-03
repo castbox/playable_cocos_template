@@ -112,6 +112,11 @@ export class utility
 
     public static setParent(node: Node, parent: Node, worldPositionStay: boolean = false)
     {
+        if (node.parent == parent)
+        {
+            return;
+        }
+
         if (worldPositionStay)
         {
             const worldPosition = node.worldPosition;
@@ -135,5 +140,32 @@ export class utility
                 resolve();
             }, seconds * 1000);
         });
+    }
+
+    public static convertToWorldSpaceAR(node: Node, localPosition: Vec3): Vec3 
+    {
+        // 获取节点的 UITransform 组件
+        const uiTransform = node.getComponent(UITransform);
+        if (!uiTransform)
+        {
+            console.warn("节点没有 UITransform 组件");
+            return new Vec3();
+        }
+
+        // 获取节点的锚点
+        const anchorPoint = uiTransform.anchorPoint;
+
+        // 计算锚点在节点本地坐标系中的位置
+        const anchorX = uiTransform.width * anchorPoint.x;
+        const anchorY = uiTransform.height * anchorPoint.y;
+
+        // 将本地坐标调整为相对于锚点的坐标
+        const localX = localPosition.x + anchorX;
+        const localY = localPosition.y + anchorY;
+
+        // 将调整后的本地坐标转换为世界坐标
+        const worldPosition = uiTransform.convertToWorldSpaceAR(new Vec3(localX, localY, 0));
+
+        return worldPosition;
     }
 }

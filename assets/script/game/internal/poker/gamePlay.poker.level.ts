@@ -3,10 +3,8 @@ import { PlayableGamePlayCore } from '../../../framework/internal/gamePlay/playa
 import { GamePlayPokerDeck } from './gamePlay.poker.deck';
 import { GamePlayPokerHoling } from './gamePlay.poker.holding';
 import { PlayableManagerEvent } from '../../../framework/runtime/playable.manager.message';
-import { PlayableManagerUI } from '../../../framework/runtime/playable.manager.ui';
 import { GamePlayPoker } from './gamePlay.poker';
 import { GamePlayPokerTableau } from './gamePlay.poker.tableau';
-import { PlayableManagerAudio } from '../../../framework/runtime/playable.manager.audio';
 const { ccclass, property } = _decorator;
 
 @ccclass('GamePlayPokerLevel')
@@ -26,13 +24,18 @@ export class GamePlayPokerLevel extends PlayableGamePlayCore
         return this.tableauList;
     }
 
-    protected onLoad(): void
+    protected override onLoad(): void
     {
         this.tableauList = this.node.getComponentsInChildren(GamePlayPokerTableau);
         this.pokerDeck = this.node.getComponentInChildren(GamePlayPokerDeck);
         this.pokerHolding = this.node.getComponentInChildren(GamePlayPokerHoling);
 
         this.pokerDeck.init();
+    }
+
+    public override async onEnter()
+    {
+        super.onEnter();
 
         PlayableManagerEvent.getInstance().on("onPokerDragStart", this._onPokerDragStartBindEvent);
         PlayableManagerEvent.getInstance().on("onPokerDragMove", this._onPokerDragMoveBindEvent);
@@ -40,9 +43,9 @@ export class GamePlayPokerLevel extends PlayableGamePlayCore
         PlayableManagerEvent.getInstance().on("onPokerClick", this._onPokerClickBindEvent);
     }
 
-    public override async onEnter()
+    public override onGameStart()
     {
-        super.onEnter();
+        super.onGameStart();
     }
 
     public override onUpdate(deltaTime: number)
@@ -63,11 +66,6 @@ export class GamePlayPokerLevel extends PlayableGamePlayCore
     public override onGameOver()
     {
         super.onGameOver();
-    }
-
-    public override onGameStart()
-    {
-        super.onGameStart();
     }
 
     protected processPokerDragStart(holdingLst: GamePlayPoker[], startWsPos: Vec3)

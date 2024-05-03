@@ -4,6 +4,8 @@ import { PlayableDynamicFinger } from "./playable.dynamicFinger";
 import { PlayableDynamicMask } from "./playable.dynamicMask";
 import { PlayableManagerEvent } from "../../runtime/playable.manager.message";
 import { EScreenOrientation, PlayableManagerCore } from "../../runtime/playable.manager.core";
+import { PlayableGamePlayCore } from "../gamePlay/playable.gamePlay.core";
+import { PlayableManagerScene } from "../../runtime/playable.manager.scene";
 
 export class PayableGuide 
 {
@@ -11,6 +13,7 @@ export class PayableGuide
     protected finger: PlayableDynamicFinger;
     protected label_content: Label;
     protected isEnd : boolean = false;
+    protected level : PlayableGamePlayCore
 
     private onCanvasResizeBindEvent = this.onCanvasResize.bind(this);
     private onOrientationChangedBindEvent = this.onOrientationChanged.bind(this);
@@ -20,8 +23,8 @@ export class PayableGuide
         this.mask = PlayableManagerGuide.getInstance().Mask;
         this.finger = PlayableManagerGuide.getInstance().Finger;
         this.label_content = PlayableManagerGuide.getInstance().Label_Content;
+        this.level =PlayableManagerScene.getInstance().CurrentGamePlay;
 
-        this.onOrientationChanged(PlayableManagerCore.getInstance().SceneOrientation)
         PlayableManagerEvent.getInstance().on("onCanvasResize", this.onCanvasResizeBindEvent);
         PlayableManagerEvent.getInstance().on("onOrientationChanged", this.onOrientationChangedBindEvent);
     }

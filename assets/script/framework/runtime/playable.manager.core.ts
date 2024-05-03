@@ -1,4 +1,4 @@
-import { _decorator, Canvas, CCString, Component, director, find, Node, ResolutionPolicy, view } from 'cc';
+import { _decorator, Canvas, CCString, Component, director, find, Node, ResolutionPolicy, Vec2, view } from 'cc';
 import SingletonComponent from '../utils/singletonOf.component';
 import { PlayableGamePlayCore } from '../internal/gamePlay/playable.gamePlay.core';
 import { PlayableManagerEvent } from './playable.manager.message';
@@ -24,6 +24,12 @@ export class PlayableManagerCore extends SingletonComponent<PlayableManagerCore>
     return this._sceneOrientation;
   }
 
+  private _screenSize : Vec2 = new Vec2(0, 0);
+  public get ScreenSize() : Vec2
+  {
+    return this._screenSize;
+  }
+
   protected onLoad()
   {
     // 初始化配置
@@ -44,9 +50,10 @@ export class PlayableManagerCore extends SingletonComponent<PlayableManagerCore>
 
   private onCanvasResize()
   {
-    let screenSize = view.getViewportRect();
-    console.log("屏幕尺寸", screenSize.width, screenSize.height)
-    if (screenSize.width > screenSize.height) 
+    let screenRect = view.getViewportRect();
+    this._screenSize.set(screenRect.width, screenRect.height)
+    console.log("屏幕尺寸", screenRect.width, screenRect.height)
+    if (screenRect.width > screenRect.height) 
     {
       // 横屏模式
       this.switchToLandscape();

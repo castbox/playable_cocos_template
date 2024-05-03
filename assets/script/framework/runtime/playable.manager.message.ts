@@ -22,7 +22,11 @@ export class PlayableManagerEvent extends Singleton<PlayableManagerEvent>
         {
             this.listeners[event] = [];
         }
-        this.listeners[event].push(handler);
+        
+        if (this.listeners[event].indexOf(handler) === -1)
+        {
+            this.listeners[event].push(handler);
+        }
     }
 
     /**
@@ -45,7 +49,7 @@ export class PlayableManagerEvent extends Singleton<PlayableManagerEvent>
      * @param handler 事件回调函数
      * @param events 事件名称
      */
-    public once_any(handler: PlayableEventHandler, ...events : string[]): void
+    public once_any(handler: PlayableEventHandler, ...events: string[]): void
     {
         const onceHandler = (...args: any[]) =>
         {

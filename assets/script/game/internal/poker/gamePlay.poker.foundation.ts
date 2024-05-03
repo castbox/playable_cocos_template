@@ -53,12 +53,12 @@ export class GamePlayPokerFoundation extends Component implements IGamePlayPoker
 
     public moveIn(poker: GamePlayPoker): void
     {
-        if (poker.BelongTo)
+        if (poker.BelongsTo)
         {
-            poker.BelongTo.remove(poker)
+            poker.BelongsTo.remove(poker)
         }
 
-        poker.BelongTo = this;
+        poker.BelongsTo = this;
         utility.setParent(poker.node, this.node);
         this.pokerStack.push(poker);
 

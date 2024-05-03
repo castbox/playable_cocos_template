@@ -1,4 +1,4 @@
-import { _decorator, Button, Camera, Canvas, Component, EventMouse, EventTouch, input, Input, JsonAsset, Mask, Node, SpringJoint2D, Sprite, Vec3 } from 'cc';
+import { _decorator, Button, Camera, Canvas, Component, EventMouse, EventTouch, input, Input, JsonAsset, Mask, Node, SpringJoint2D, Sprite, UITransform, Vec2, Vec3 } from 'cc';
 import { PlayableGamePlayCore } from '../internal/gamePlay/playable.gamePlay.core';
 import { EScreenOrientation, PlayableManagerCore } from './playable.manager.core';
 import { PlayableManagerEvent } from './playable.manager.message';
@@ -17,7 +17,7 @@ export class PlayableManagerScene extends SingletonComponent<PlayableManagerScen
     public Btn_Install: Button
 
     private _gamePlayList: PlayableGamePlayCore[]
-    get GamePlay(): PlayableGamePlayCore[]
+    public get GamePlay(): PlayableGamePlayCore[]
     {
         return this._gamePlayList;
     }
@@ -29,21 +29,26 @@ export class PlayableManagerScene extends SingletonComponent<PlayableManagerScen
     }
 
     private _currentGamePlay: PlayableGamePlayCore
-    get CurrentGamePlay(): PlayableGamePlayCore
+    public get CurrentGamePlay(): PlayableGamePlayCore
     {
         return this._currentGamePlay;
     }
 
     private _mouseWsPosition: Vec3;
-    get MouseWsPosition(): Vec3
+    public get MouseWsPosition(): Vec3
     {
         return this._mouseWsPosition;
     }
 
     private _curGamePlayIndex: number = 0;
-    get CurGamePlayIndex(): number
+    public get CurGamePlayIndex(): number
     {
         return this._curGamePlayIndex;
+    }
+
+    public get CanvasSize(): Vec2
+    {
+        return new Vec2(this._canvas.node.getComponent(UITransform).contentSize.width, this._canvas.node.getComponent(UITransform).contentSize.height)
     }
 
     private _onOrientationChangedBindEvent = this.onOrientationChanged.bind(this);

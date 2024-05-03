@@ -6,7 +6,8 @@
     "touch": {
         "moving_distance": 100
     },
-    "poker":{
-        "flip_time": 0.3
+    "ballSort":{
+        "move_speed": 2500,
+        "max_stack": 8
     }
 }

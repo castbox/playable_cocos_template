@@ -299,14 +299,14 @@
     "_priority": 0,
     "_fov": 45,
     "_fovAxis": 0,
-    "_orthoHeight": 776.3636363636363,
+    "_orthoHeight": 735.6123822341858,
     "_near": 0,
     "_far": 1000,
     "_color": {
       "__type__": "cc.Color",
-      "r": 0,
-      "g": 0,
-      "b": 0,
+      "r": 31,
+      "g": 24,
+      "b": 81,
       "a": 255
     },
     "_depth": 1,
@@ -1005,7 +1005,7 @@
       "__id__": 13
     },
     "_children": [],
-    "_active": true,
+    "_active": false,
     "_components": [
       {
         "__id__": 29
@@ -1092,7 +1092,7 @@
     "_string": "label",
     "_horizontalAlign": 1,
     "_verticalAlign": 1,
-    "_actualFontSize": 44,
+    "_actualFontSize": 53.375,
     "_fontSize": 40,
     "_fontFamily": "Arial",
     "_lineHeight": 40,
@@ -1637,7 +1637,7 @@
     "_priority": 1,
     "_fov": 45,
     "_fovAxis": 0,
-    "_orthoHeight": 776.3636363636363,
+    "_orthoHeight": 735.6123822341858,
     "_near": 0,
     "_far": 1000,
     "_color": {

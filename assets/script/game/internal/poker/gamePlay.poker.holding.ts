@@ -61,7 +61,7 @@ export class GamePlayPokerHoling extends Component
         {
             this._holdingList.forEach((poker) =>
             {
-                poker.BelongTo.moveBack(poker);
+                poker.BelongsTo.moveBack(poker);
             })
             this.Head.shake()
             this._holdingList = [];
