@@ -33,9 +33,9 @@ export class GamePlayPokerLevel extends PlayableGamePlayCore
         this.pokerDeck.init();
     }
 
-    public override async onEnter()
+    public override async onGameEnter()
     {
-        super.onEnter();
+        super.onGameEnter();
 
         PlayableManagerEvent.getInstance().on("onPokerDragStart", this._onPokerDragStartBindEvent);
         PlayableManagerEvent.getInstance().on("onPokerDragMove", this._onPokerDragMoveBindEvent);
@@ -48,9 +48,9 @@ export class GamePlayPokerLevel extends PlayableGamePlayCore
         super.onGameStart();
     }
 
-    public override onUpdate(deltaTime: number)
+    public override onGameUpdate(deltaTime: number)
     {
-        super.onUpdate(deltaTime);
+        super.onGameUpdate(deltaTime);
     }
 
     public override onGameEnd()

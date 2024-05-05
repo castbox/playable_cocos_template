@@ -33,25 +33,28 @@ export class PlayableManagerUI extends SingletonComponent<PlayableManagerUI>
 
     public async openUI(prefabName: string): Promise<PlayableUI>
     {
-        try 
+        return new Promise<PlayableUI>(async (resolve, reject) =>
         {
-            if (this._openList.has(prefabName)) 
+            try 
             {
-                return this._openList.get(prefabName) as PlayableUI;
+                if (this._openList.has(prefabName)) 
+                {
+                    return this._openList.get(prefabName) as PlayableUI;
+                }
+    
+                const ui = await PlayableManagerResource.loadPrefab<PlayableUI>(PlayableUI, `prefab/ui/${prefabName}`);
+                ui.node.setParent(this._canvas.node)
+                this._openList.set(prefabName, ui);
+                ui.init();
+                ui.open();
+                resolve(ui);
             }
-
-            const ui = await PlayableManagerResource.loadPrefab<PlayableUI>(PlayableUI, `prefab/ui/${prefabName}`);
-            ui.node.setParent(this._canvas.node)
-            this._openList.set(prefabName, ui);
-            ui.init();
-            ui.open();
-            return ui;
-        }
-        catch (error)
-        {
-            console.error(`Failed to load ui ${prefabName}: ${error}`);
-            return null;
-        }
+            catch (error)
+            {
+                console.error(`Failed to load ui ${prefabName}: ${error}`);
+                reject(error);
+            }
+        });
     }
 
     public closeUI(prefabName: string)
@@ -97,7 +100,7 @@ export class PlayableManagerUI extends SingletonComponent<PlayableManagerUI>
         }
         else
         {
-            
+
         }
     }
 }

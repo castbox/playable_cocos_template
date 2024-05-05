@@ -40,9 +40,9 @@ export class GamePlayBallSortLevel extends PlayableGamePlayCore
         this._bottles = this.node.getChildByName("bottles").getComponentsInChildren(GamePlayBallSortBottle);
     }
 
-    public override async onEnter()
+    public override async onGameEnter()
     {
-        super.onEnter();
+        super.onGameEnter();
 
         PlayableManagerEvent.getInstance().on("onBottleClick", this._onBottleClickBindEvent);
     }
@@ -54,9 +54,9 @@ export class GamePlayBallSortLevel extends PlayableGamePlayCore
         this._isMoving = false;
     }
 
-    public override onUpdate(deltaTime: number)
+    public override onGameUpdate(deltaTime: number)
     {
-        super.onUpdate(deltaTime);
+        super.onGameUpdate(deltaTime);
     }
 
     public override onGameEnd()

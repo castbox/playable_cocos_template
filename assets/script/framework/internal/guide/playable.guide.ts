@@ -1,4 +1,4 @@
-import { Label, Widget } from "cc";
+import { Label, Tween, tween, Widget } from "cc";
 import { PlayableManagerGuide } from "../../runtime/playable.manager.guide";
 import { PlayableDynamicFinger } from "./playable.dynamicFinger";
 import { PlayableDynamicMask } from "./playable.dynamicMask";
@@ -23,7 +23,7 @@ export class PayableGuide
         this.mask = PlayableManagerGuide.getInstance().Mask;
         this.finger = PlayableManagerGuide.getInstance().Finger;
         this.label_content = PlayableManagerGuide.getInstance().Label_Content;
-        this.level =PlayableManagerScene.getInstance().CurrentGamePlay;
+        this.level = PlayableManagerScene.getInstance().CurrentGamePlay;
 
         PlayableManagerEvent.getInstance().on("onCanvasResize", this.onCanvasResizeBindEvent);
         PlayableManagerEvent.getInstance().on("onOrientationChanged", this.onOrientationChangedBindEvent);
@@ -31,8 +31,10 @@ export class PayableGuide
 
     public async show()
     {
-        this.mask.clear()
-        this.finger.clear()
+        this.mask.clear();
+        this.finger.clear();
+        PlayableManagerGuide.getInstance().unscheduleAllCallbacks();
+        Tween.stopAllByTarget(PlayableManagerGuide.getInstance().node); 
     }
 
     public hide()

@@ -86,7 +86,7 @@ export class PlayableManagerScene extends SingletonComponent<PlayableManagerScen
 
     protected update(deltaTime: number): void
     {
-        this._currentGamePlay?.onUpdate(deltaTime);
+        this._currentGamePlay?.onGameUpdate(deltaTime);
     }
 
     protected onDestroy(): void
@@ -118,7 +118,7 @@ export class PlayableManagerScene extends SingletonComponent<PlayableManagerScen
         // 开启下一局
         this._currentGamePlay = this._gamePlayList.shift();
         this._currentGamePlay.node.active = true;
-        this._currentGamePlay.onEnter()
+        this._currentGamePlay.onGameEnter()
         this._curGamePlayIndex++;
     }
 

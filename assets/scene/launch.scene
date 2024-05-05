@@ -304,9 +304,9 @@
     "_far": 1000,
     "_color": {
       "__type__": "cc.Color",
-      "r": 31,
-      "g": 24,
-      "b": 81,
+      "r": 0,
+      "g": 0,
+      "b": 0,
       "a": 255
     },
     "_depth": 1,
@@ -1060,7 +1060,7 @@
     "_contentSize": {
       "__type__": "cc.Size",
       "width": 500,
-      "height": 50.400000000000006
+      "height": 50
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -1158,7 +1158,7 @@
     "_originalWidth": 500,
     "_originalHeight": 75.60000000000001,
     "_alignMode": 2,
-    "_lockFlags": 0,
+    "_lockFlags": 18,
     "_id": "01b66lMbxCsYg9I0pEFCRr"
   },
   {

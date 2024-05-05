@@ -47,9 +47,17 @@ export class PlayableManagerGuide extends SingletonComponent<PlayableManagerGuid
         }
     }
 
+    public clear(): void
+    {
+        this._guideQueue = [];
+    }
+
     public play()
     {
-        this.next();
+        this.scheduleOnce(() =>
+        {
+            this.next();
+        }, 0)
     }
 
     protected onLoad(): void

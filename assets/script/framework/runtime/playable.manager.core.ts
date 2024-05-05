@@ -38,7 +38,6 @@ export class PlayableManagerCore extends SingletonComponent<PlayableManagerCore>
 
   public start()
   {
-    this.onCanvasResize()
     view.on('canvas-resize', this.onCanvasResize, this);
   }
 
