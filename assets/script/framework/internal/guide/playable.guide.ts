@@ -18,7 +18,7 @@ export class PayableGuide
     private onCanvasResizeBindEvent = this.onCanvasResize.bind(this);
     private onOrientationChangedBindEvent = this.onOrientationChanged.bind(this);
 
-    public active()
+    public async active(): Promise<void>
     {
         this.mask = PlayableManagerGuide.getInstance().Mask;
         this.finger = PlayableManagerGuide.getInstance().Finger;
@@ -29,7 +29,7 @@ export class PayableGuide
         PlayableManagerEvent.getInstance().on("onOrientationChanged", this.onOrientationChangedBindEvent);
     }
 
-    public async show()
+    public async show(): Promise<void>
     {
         this.mask.clear();
         this.finger.clear();
@@ -37,7 +37,7 @@ export class PayableGuide
         Tween.stopAllByTarget(PlayableManagerGuide.getInstance().node); 
     }
 
-    public hide()
+    public async hide(): Promise<void>
     {
         this.mask.hide();
         this.finger.hide();
@@ -49,21 +49,19 @@ export class PayableGuide
         return this.isEnd;
     }
 
-    public end()
+    public async end(): Promise<void>
     {
         PlayableManagerEvent.getInstance().off("onCanvasResize", this.onCanvasResizeBindEvent);
         PlayableManagerEvent.getInstance().off("onOrientationChanged", this.onOrientationChangedBindEvent);
     }
 
-    protected onCanvasResize()
+    protected async onCanvasResize()
     {
-        this.hide();
-        this.show();
+        
     }
 
-    protected onOrientationChanged(orientation: EScreenOrientation)
+    protected async onOrientationChanged(orientation: EScreenOrientation)
     {
-        this.hide();
-        this.show();
+        
     }
 }

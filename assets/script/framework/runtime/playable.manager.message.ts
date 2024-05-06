@@ -22,7 +22,7 @@ export class PlayableManagerEvent extends Singleton<PlayableManagerEvent>
         {
             this.listeners[event] = [];
         }
-        
+
         if (this.listeners[event].indexOf(handler) === -1)
         {
             this.listeners[event].push(handler);
@@ -51,12 +51,12 @@ export class PlayableManagerEvent extends Singleton<PlayableManagerEvent>
      */
     public once_any(handler: PlayableEventHandler, ...events: string[]): void
     {
-        const onceHandler = (...args: any[]) =>
+        const onceAnyHandler = (event: string, ...args: any[]) =>
         {
-            handler(...args);
-            events.forEach(event => this.off(event, onceHandler));
+            handler(event, ...args);
+            events.forEach(event => this.off(event, onceAnyHandler));
         };
-        events.forEach(event => this.on(event, onceHandler));
+        events.forEach(event => this.on(event, onceAnyHandler));
     }
 
     /**
@@ -71,7 +71,14 @@ export class PlayableManagerEvent extends Singleton<PlayableManagerEvent>
         {
             handlers.forEach(handler =>
             {
-                handler(...args);
+                if (handler.name == "onceAnyHandler")
+                {
+                    handler(event, ...args);
+                }
+                else
+                {
+                    handler(...args);
+                }
             });
         }
     }

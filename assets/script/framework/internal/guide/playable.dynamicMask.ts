@@ -81,7 +81,7 @@ export class PlayableDynamicMask extends Component
         this.draw();
     }
 
-    private draw()
+    public draw()
     {
         this._maskGraphics.clear();
         this._masks.forEach(mask => 

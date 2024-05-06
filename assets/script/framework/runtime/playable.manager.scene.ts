@@ -6,6 +6,7 @@ import SingletonComponent from '../utils/singletonOf.component';
 import { utility } from '../utils/utility';
 import { PlayableManagerConfig } from './playable.manager.config';
 import { PlayableManagerAudio } from './playable.manager.audio';
+import { PlayableManagerGuide } from './playable.manager.guide';
 const { ccclass, property } = _decorator;
 
 @ccclass('PlayableManagerScene')
@@ -107,6 +108,9 @@ export class PlayableManagerScene extends SingletonComponent<PlayableManagerScen
             this._currentGamePlay.onGameEnd()
             this._currentGamePlay.node.active = false;
         }
+
+        // 清理
+        PlayableManagerGuide.getInstance().clear();
 
         // 没有下一局了，就结束游戏
         if (this._gamePlayList.length == 0)

@@ -3,7 +3,6 @@ const { ccclass, property } = _decorator;
 
 import { PlayableGamePlayCore } from '../../../framework/internal/gamePlay/playable.gamePlay.core';
 import { PlayableManagerEvent } from '../../../framework/runtime/playable.manager.message';
-import { GamePlayUIGamePlay } from '../../ui/gamePlay.ui.gamePlay';
 import { PlayableManagerScene } from '../../../framework/runtime/playable.manager.scene';
 import { PlayableManagerAudio } from '../../../framework/runtime/playable.manager.audio';
 import { PlayableManagerVFX } from '../../../framework/runtime/playable.manager.vfx';
@@ -12,7 +11,6 @@ import { GamePlayFindOutLogicAppear } from './gamePlay.findOut.logic.appear';
 import { GamePlayFindOutLogicDisappear } from './gamePlay.findOut.logic.disappear';
 import { GamePlayFindOutLogic } from './gamePlay.findOut.logic';
 import { PlayableManagerGuide } from '../../../framework/runtime/playable.manager.guide';
-import { GamePlayGuide } from '../../guide/gamePlay.guide';
 
 (window as any).GamePlayFindOutLogicAppear = GamePlayFindOutLogicAppear;
 (window as any).GamePlayFindOutLogicDisappear = GamePlayFindOutLogicDisappear;
@@ -77,9 +75,6 @@ export class GamePlayFindOutLevel extends PlayableGamePlayCore
     public override async onGameStart(): Promise<void>
     {
         super.onGameStart()
-
-        PlayableManagerGuide.getInstance().add(new GamePlayGuide())
-        PlayableManagerGuide.getInstance().play();
 
         this.nextSelect();
     }

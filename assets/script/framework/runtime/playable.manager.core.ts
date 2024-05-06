@@ -24,8 +24,8 @@ export class PlayableManagerCore extends SingletonComponent<PlayableManagerCore>
     return this._sceneOrientation;
   }
 
-  private _screenSize : Vec2 = new Vec2(0, 0);
-  public get ScreenSize() : Vec2
+  private _screenSize: Vec2 = new Vec2(0, 0);
+  public get ScreenSize(): Vec2
   {
     return this._screenSize;
   }
@@ -34,6 +34,7 @@ export class PlayableManagerCore extends SingletonComponent<PlayableManagerCore>
   {
     // 初始化配置
     PlayableManagerConfig.getInstance().init();
+    this.onCanvasResize(true);
   }
 
   public start()
@@ -47,44 +48,54 @@ export class PlayableManagerCore extends SingletonComponent<PlayableManagerCore>
     view.off('canvas-resize', this.onCanvasResize, this);
   }
 
-  private onCanvasResize()
+  private onCanvasResize(immediately: boolean = false)
   {
-    let screenRect = view.getViewportRect();
-    this._screenSize.set(screenRect.width, screenRect.height)
-    console.log("屏幕尺寸", screenRect.width, screenRect.height)
-    if (screenRect.width > screenRect.height) 
+    PlayableManagerEvent.getInstance().emit("onCanvasResize")
+
+    const doOrientation = () =>
     {
-      // 横屏模式
-      this.switchToLandscape();
-    }
-    else 
-    {
-      // 竖屏模式
-      this.switchToPortrait();
+      let screenRect = view.getViewportRect();
+      this._screenSize.set(screenRect.width, screenRect.height)
+      console.log("屏幕尺寸", screenRect.width, screenRect.height)
+      if (screenRect.width > screenRect.height) 
+      {
+        // 横屏模式
+        this.switchToLandscape();
+      }
+      else 
+      {
+        // 竖屏模式
+        this.switchToPortrait();
+      }
     }
 
-    PlayableManagerEvent.getInstance().emit("onCanvasResize")
+    if (immediately)
+    {
+      doOrientation();
+      return;
+    }
+
+    this.scheduleOnce(() =>
+    {
+      doOrientation();
+    }, 0.05)
   }
 
   /**
    * 实现转换到竖屏的逻辑
    */
-  switchToPortrait()
+  switchToPortrait(immediately: boolean = false)
   {
     if (this._sceneOrientation == EScreenOrientation.Portrait)
     {
       return;
     }
 
-    // 延迟设置，防止闪屏
-    this.scheduleOnce(() =>
-    {
-      console.log("转换到竖屏")
+    console.log("转换到竖屏")
 
-      view.setDesignResolutionSize(720, 1280, ResolutionPolicy.FIXED_HEIGHT)
-      this._sceneOrientation = EScreenOrientation.Portrait;
-      PlayableManagerEvent.getInstance().emit("onOrientationChanged", EScreenOrientation.Portrait);
-    }, 0.05)
+    view.setDesignResolutionSize(720, 1280, ResolutionPolicy.FIXED_WIDTH)
+    this._sceneOrientation = EScreenOrientation.Portrait;
+    PlayableManagerEvent.getInstance().emit("onOrientationChanged", EScreenOrientation.Portrait);
   }
 
   /**
@@ -97,14 +108,10 @@ export class PlayableManagerCore extends SingletonComponent<PlayableManagerCore>
       return;
     }
 
-    // 延迟设置，防止闪屏
-    this.scheduleOnce(() =>
-    {
-      console.log("转换到横屏")
+    console.log("转换到横屏")
 
-      view.setDesignResolutionSize(1280, 720, ResolutionPolicy.FIXED_WIDTH)
-      this._sceneOrientation = EScreenOrientation.Landscape;
-      PlayableManagerEvent.getInstance().emit("onOrientationChanged", EScreenOrientation.Landscape);
-    }, 0.05)
+    view.setDesignResolutionSize(1280, 720, ResolutionPolicy.FIXED_HEIGHT)
+    this._sceneOrientation = EScreenOrientation.Landscape;
+    PlayableManagerEvent.getInstance().emit("onOrientationChanged", EScreenOrientation.Landscape);
   }
 }

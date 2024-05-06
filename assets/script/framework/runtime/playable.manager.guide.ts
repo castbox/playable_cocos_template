@@ -81,17 +81,18 @@ export class PlayableManagerGuide extends SingletonComponent<PlayableManagerGuid
         }
     }
 
-    private next(): void
+    private async next(): Promise<void>
     {
         if (this._currentGuide)
         {
-            this._currentGuide.end();
+            await this._currentGuide.end();
         }
+
         this._currentGuide = this._guideQueue.shift();
         if (this._currentGuide != null)
         {
-            this._currentGuide.active();
-            this._currentGuide.show();
+            await this._currentGuide.active();
+            await this._currentGuide.show();
         }
         else
         {

@@ -43,9 +43,9 @@ export class GamePlayPokerDeck extends Component
     public async DealPoker(
         target: { container: IGamePlayPokerContainer, worldPosition: Vec3, holding: GamePlayPokerHoling },
         duration: number,
-        ...specGrp: { faceOn: boolean, suit: ECardSuit, rank: number }[]): Promise<GamePlayPoker[]>
+        ...specGrp: { faceOn: boolean, suit: ECardSuit, rank: number, init: boolean }[]): Promise<GamePlayPoker[]>
     {
-        const do_create = async (spec: { faceOn: boolean, suit: ECardSuit, rank: number }): Promise<GamePlayPoker> =>
+        const do_create = async (spec: { faceOn: boolean, suit: ECardSuit, rank: number, init: boolean }): Promise<GamePlayPoker> =>
         {
             return new Promise<GamePlayPoker>(async (resolve, reject) =>
             {
@@ -64,9 +64,12 @@ export class GamePlayPokerDeck extends Component
                     {
                         number = this.deck.pop();
                     }
-
                     const [suit, rank] = this.numberToPoker(number);
-                    poker.initByFace(await PlayableManagerResource.LoadSprite(`poker/poker_${suit}_${rank}`))
+                    if (spec.init)
+                    {
+                        poker.initByFace(await PlayableManagerResource.LoadSprite(`poker/poker_${suit}_${rank}`))
+                    }
+                    
                     poker.setFaceOn(spec.faceOn)
                     poker.Intractable = false
                     resolve(poker)

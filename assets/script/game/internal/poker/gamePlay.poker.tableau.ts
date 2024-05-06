@@ -121,7 +121,7 @@ export class GamePlayPokerTableau extends Component implements IGamePlayPokerCon
     {
         utility.setParent(poker.node, this._root);
         this.pokerStack.push(poker);
-        PlayableManagerEvent.getInstance().emit("onPokerAddTableau", this, poker);
+        PlayableManagerEvent.getInstance().emit("onPokerBackTableau", this, poker);
     }
 
     public remove(poker: GamePlayPoker)

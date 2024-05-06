@@ -43,7 +43,7 @@ export class GamePlayPokerLevel extends PlayableGamePlayCore
         PlayableManagerEvent.getInstance().on("onPokerClick", this._onPokerClickBindEvent);
     }
 
-    public override onGameStart()
+    public override async onGameStart()
     {
         super.onGameStart();
     }
@@ -53,7 +53,7 @@ export class GamePlayPokerLevel extends PlayableGamePlayCore
         super.onGameUpdate(deltaTime);
     }
 
-    public override onGameEnd()
+    public override async onGameEnd()
     {
         super.onGameEnd();
 
@@ -63,7 +63,7 @@ export class GamePlayPokerLevel extends PlayableGamePlayCore
         PlayableManagerEvent.getInstance().off("onPokerClick", this._onPokerClickBindEvent);
     }
 
-    public override onGameOver()
+    public override async onGameOver()
     {
         super.onGameOver();
     }
