@@ -37,22 +37,29 @@ export class GamePlayFindOutLevel extends PlayableGamePlayCore
     private onSelectBindEvent = this.onSelected.bind(this);
     private onSceneClickBindEvent = this.onSceneClick.bind(this);
 
-    protected _selectCount: number;
-    protected _currentSelectCnt: number;
-    protected _selectableList: Array<GamePlayFindOutSelectable>;
+    protected selectCount: number;
+    protected currentSelectCnt: number;
+    protected selectableList: Array<GamePlayFindOutSelectable>;
+    protected willMaskSelectable: GamePlayFindOutSelectable
 
-    public get selectableList()
+    public get SelectableList()
     {
-        return this._selectableList;
+        return this.selectableList;
+    }
+
+    public get WillMaskSelectable()
+    {
+        return this.willMaskSelectable;
     }
 
     public override async onGameEnter(): Promise<void>
     {
         this.node.active = false;
 
-        this._currentSelectCnt = 0;
-        this._selectableList = this.node.getComponentsInChildren(GamePlayFindOutSelectable).filter((selectable)=>selectable.CanSelected)
-        this._selectCount = this._selectableList.length;
+        this.currentSelectCnt = 0;
+        this.selectableList = this.node.getComponentsInChildren(GamePlayFindOutSelectable).filter((selectable)=>selectable.CanSelected)
+        this.selectCount = this.selectableList.length;
+        this.willMaskSelectable = this.node.getComponentsInChildren(GamePlayFindOutSelectable).find((selectable)=>selectable.WillMask)
 
         this._logic = eval(`new ${'GamePlayFindOutLogic' + EFindOutLogicType[this.LogicClassType]}()`);
         this._logic.onEnter(this.node);
@@ -60,7 +67,7 @@ export class GamePlayFindOutLevel extends PlayableGamePlayCore
         PlayableManagerEvent.getInstance().on("onSelect", this.onSelectBindEvent);
         PlayableManagerEvent.getInstance().on("onSceneClick", this.onSceneClickBindEvent);
 
-        const maskSelectable = this.selectableList.find((selectable) => selectable.WillMask);
+        const maskSelectable = this.SelectableList.find((selectable) => selectable.WillMask);
         PlayableManagerGuide.getInstance().Mask.addCircleTarget(maskSelectable.node.getWorldPosition(), 80);
         PlayableManagerGuide.getInstance().Finger.point(maskSelectable.node.getWorldPosition());
         PlayableManagerEvent.getInstance().once("onSceneClick", () =>
@@ -107,12 +114,12 @@ export class GamePlayFindOutLevel extends PlayableGamePlayCore
 
     protected onSelected(obj: Node)
     {
-        this._selectableList = this._selectableList.filter((value) =>
+        this.selectableList = this.selectableList.filter((value) =>
         {
             return value.node != obj;
         })
 
-        this._currentSelectCnt++;
+        this.currentSelectCnt++;
         this._logic.onSelect(obj.getComponent(GamePlayFindOutSelectable))
         this.nextSelect();
 
@@ -122,7 +129,7 @@ export class GamePlayFindOutLevel extends PlayableGamePlayCore
 
     protected nextSelect()
     {
-        if (this._selectableList.length == 0)
+        if (this.selectableList.length == 0)
         {
             this.gameEnd()
             return;

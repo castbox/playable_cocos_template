@@ -31,13 +31,13 @@ export class GamePlayFindOutSelectable extends Component
 
     public onSelect()
     {
-        PlayableManagerEvent.getInstance().emit("onSceneClick", this.node);
-
         if (this.CanSelected)
         {
             PlayableManagerEvent.getInstance().emit("onSelect", this.node);
         }
 
+        PlayableManagerEvent.getInstance().emit("onSceneClick", this.node);
+        
         // 点击过后不可再点击
         this.CanSelected = false;
     }
