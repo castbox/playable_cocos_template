@@ -12,6 +12,8 @@ native
 extensions/
 settings/
 assets/resources
+tsconfig.json
+package.json
 
 
 #//////////////////////////
