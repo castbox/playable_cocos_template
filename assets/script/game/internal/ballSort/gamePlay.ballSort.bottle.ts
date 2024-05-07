@@ -1,4 +1,4 @@
-import { _decorator, Component, Layout, math, Node, Sprite, tween, UITransform, Vec3 } from 'cc';
+import { _decorator, Component, Layout, math, Node, Sprite, Tween, tween, UITransform, Vec3 } from 'cc';
 import { GamePlayBallSortBall } from './gamePlay.ballSort.ball';
 import { PlayableManagerEvent } from '../../../framework/runtime/playable.manager.message';
 import { PlayableManagerConfig } from '../../../framework/runtime/playable.manager.config';
@@ -19,22 +19,22 @@ export class GamePlayBallSortBottle extends Component
         return this._node_root.getComponent(UITransform).convertToWorldSpaceAR(new Vec3(0, this.ballStack.length * this._offsetY));
     }
 
-    public get TopPos_world() : Vec3
+    public get TopPos_world(): Vec3
     {
         return this._node_top.worldPosition;
     }
 
-    public get Last() : GamePlayBallSortBall
+    public get Last(): GamePlayBallSortBall
     {
         return this.ballStack[this.ballStack.length - 1];
     }
 
-    public get IsFull() : boolean
+    public get IsFull(): boolean
     {
         return this.ballStack.length >= PlayableManagerConfig.getInstance().settings.json.ballSort.max_stack;
     }
 
-    public get IsEmpty() : boolean
+    public get IsEmpty(): boolean
     {
         return this.ballStack.length == 0;
     }
@@ -69,32 +69,41 @@ export class GamePlayBallSortBottle extends Component
     {
         return new Promise<void>((resolve, reject) =>
         {
+            Tween.stopAllByTarget(this.node)
+
             const moveTime = Vec3.distance(this.TopPos_world, this.LastPos_world) / PlayableManagerConfig.getInstance().settings.json.ballSort.move_speed;
-            tween(ball.node).to(moveTime, { worldPosition: this.LastPos_world }).call(() =>
-            {
-                this.ballStack.push(ball);
-                ball.BelongsTo = this;
-                utility.setParent(ball.node, this._node_root, true);
+            tween(ball.node).
+                to(moveTime, { worldPosition: this.LastPos_world }, { easing: 'bounceOut' }).
+                call(() =>
+                {
+                    this.ballStack.push(ball);
+                    ball.BelongsTo = this;
+                    utility.setParent(ball.node, this._node_root, true);
 
-                PlayableManagerEvent.getInstance().emit("onBallMoveIn", ball);
+                    PlayableManagerEvent.getInstance().emit("onBallMoveIn", ball);
 
-                resolve()
-            }).start()
+                    resolve()
+                }).start()
         });
     }
 
-    public async moveBack(ball : GamePlayBallSortBall) : Promise<void>
+    public async moveBack(ball: GamePlayBallSortBall): Promise<void>
     {
-        return new Promise<void>((resolve, reject) =>{
+        return new Promise<void>((resolve, reject) =>
+        {
+            Tween.stopAllByTarget(this.node)
+
             const moveTime = Vec3.distance(this.TopPos_world, this.LastPos_world) / PlayableManagerConfig.getInstance().settings.json.ballSort.move_speed;
-            tween(ball.node).to(moveTime, { worldPosition: this.LastPos_world }).call(() =>
-            {
-                this.ballStack.push(ball)
+            tween(ball.node).
+                to(moveTime, { worldPosition: this.LastPos_world }, { easing: 'bounceOut' }).
+                call(() =>
+                {
+                    this.ballStack.push(ball)
 
-                PlayableManagerEvent.getInstance().emit("onBallMoveBack", ball);
+                    PlayableManagerEvent.getInstance().emit("onBallMoveBack", ball);
 
-                resolve()
-            }).start()
+                    resolve()
+                }).start()
         });
     }
 
@@ -110,14 +119,28 @@ export class GamePlayBallSortBottle extends Component
     {
         return new Promise<GamePlayBallSortBall>((resolve, reject) =>
         {
+            Tween.stopAllByTarget(this.node)
+
             const ball = this.ballStack.pop();
             const moveTime = Vec3.distance(ball.node.worldPosition, this.TopPos_world) / PlayableManagerConfig.getInstance().settings.json.ballSort.move_speed;
-            tween(ball.node).to(moveTime, { worldPosition: this.TopPos_world }).call(() =>
-            {
-                PlayableManagerEvent.getInstance().emit("onBallMoveOut", ball);
 
-                resolve(ball)
-            }).start()
+            const offset1 = this.TopPos_world.clone().add(new Vec3(0, 10, 0))
+            const offset2 = this.TopPos_world.clone().subtract(new Vec3(0, 10, 0))
+
+            tween(ball.node).
+                to(moveTime, { worldPosition: this.TopPos_world }, { easing: 'bounceOut' }).
+                to(0.05, { worldPosition: offset1 }, { easing: 'bounceOut' }).
+                to(0.05, { worldPosition: this.TopPos_world }, { easing: 'bounceOut' }).
+                to(0.05, { worldPosition: offset2 }, { easing: 'bounceOut' }).
+                to(0.05, { worldPosition: this.TopPos_world }, { easing: 'bounceOut' }).
+                call(() =>
+                {
+                    console.log("ball move out")
+
+                    PlayableManagerEvent.getInstance().emit("onBallMoveOut", ball);
+
+                    resolve(ball)
+                }).start()
         });
     }
 

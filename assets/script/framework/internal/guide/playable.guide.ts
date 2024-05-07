@@ -15,6 +15,7 @@ export class PlayableGuide
     protected isEnd: boolean = false;
     protected level: PlayableGamePlayCore
     protected check_steps: number = 0;
+    protected check_interval = 2;
 
     private onCanvasResizeBindEvent = this.onCanvasResize.bind(this);
     private onOrientationChangedBindEvent = this.onOrientationChanged.bind(this);
@@ -83,7 +84,7 @@ export class PlayableGuide
                     {
                         this.show();
                     }
-                }, 2)
+                }, this.check_interval)
             }
 
             if (checkEvents.length > 0)
