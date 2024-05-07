@@ -33,6 +33,8 @@ export class GamePlayBallSortLevel extends PlayableGamePlayCore
                 return bottle;
             }
         }
+
+        return null;
     }
 
     protected override onLoad(): void
@@ -47,7 +49,7 @@ export class GamePlayBallSortLevel extends PlayableGamePlayCore
         PlayableManagerEvent.getInstance().on("onBottleClick", this._onBottleClickBindEvent);
     }
 
-    public override onGameStart(): void
+    public override async onGameStart(): Promise<void>
     {
         super.onGameStart();
 
@@ -59,14 +61,14 @@ export class GamePlayBallSortLevel extends PlayableGamePlayCore
         super.onGameUpdate(deltaTime);
     }
 
-    public override onGameEnd()
+    public override async onGameEnd(): Promise<void>
     {
         super.onGameEnd();
 
         PlayableManagerEvent.getInstance().off("onBottleClick", this._onBottleClickBindEvent);
     }
 
-    public override onGameOver()
+    public override async onGameOver(): Promise<void>
     {
         super.onGameOver();
     }
