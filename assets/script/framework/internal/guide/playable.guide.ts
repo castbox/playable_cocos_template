@@ -7,7 +7,7 @@ import { EScreenOrientation, PlayableManagerCore } from "../../runtime/playable.
 import { PlayableGamePlayCore } from "../gamePlay/playable.gamePlay.core";
 import { PlayableManagerScene } from "../../runtime/playable.manager.scene";
 
-export class PayableGuide 
+export class PlayableGuide 
 {
     protected mask: PlayableDynamicMask
     protected finger: PlayableDynamicFinger;
