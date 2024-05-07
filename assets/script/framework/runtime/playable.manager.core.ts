@@ -1,4 +1,4 @@
-import { _decorator, Canvas, CCString, Component, director, find, Node, ResolutionPolicy, Vec2, view } from 'cc';
+import { _decorator, Canvas, CCString, Component, director, Enum, find, Node, ResolutionPolicy, Vec2, view } from 'cc';
 import SingletonComponent from '../utils/singletonOf.component';
 import { PlayableGamePlayCore } from '../internal/gamePlay/playable.gamePlay.core';
 import { PlayableManagerEvent } from './playable.manager.message';
@@ -12,9 +12,21 @@ export enum EScreenOrientation
   Landscape = 2
 }
 
+export enum EResolutionPolicy
+{
+  FIXED_WIDTH = ResolutionPolicy.FIXED_WIDTH,
+  FIXED_HEIGHT = ResolutionPolicy.FIXED_HEIGHT,
+}
+
 @ccclass('PlayableManagerCore')
 export class PlayableManagerCore extends SingletonComponent<PlayableManagerCore>
 {
+  @property({type: Enum(EResolutionPolicy)})
+  public WidthResolutionPolicy: EResolutionPolicy = EResolutionPolicy.FIXED_WIDTH;
+
+  @property({type: Enum(EResolutionPolicy)})
+  public HeightResolutionPolicy: EResolutionPolicy = EResolutionPolicy.FIXED_HEIGHT;
+
   /**
    * 当前旋转方向
    */
@@ -93,7 +105,7 @@ export class PlayableManagerCore extends SingletonComponent<PlayableManagerCore>
 
     console.log("转换到竖屏")
 
-    view.setDesignResolutionSize(720, 1280, ResolutionPolicy.FIXED_WIDTH)
+    view.setDesignResolutionSize(720, 1280, this.HeightResolutionPolicy)
     this._sceneOrientation = EScreenOrientation.Portrait;
     PlayableManagerEvent.getInstance().emit("onOrientationChanged", EScreenOrientation.Portrait);
   }
@@ -110,7 +122,7 @@ export class PlayableManagerCore extends SingletonComponent<PlayableManagerCore>
 
     console.log("转换到横屏")
 
-    view.setDesignResolutionSize(1280, 720, ResolutionPolicy.FIXED_HEIGHT)
+    view.setDesignResolutionSize(1280, 720, this.WidthResolutionPolicy)
     this._sceneOrientation = EScreenOrientation.Landscape;
     PlayableManagerEvent.getInstance().emit("onOrientationChanged", EScreenOrientation.Landscape);
   }

@@ -1,7 +1,7 @@
 import { _decorator, Label, Node } from 'cc';
 import SingletonComponent from "../utils/singletonOf.component";
 import { PlayableDynamicMask } from '../internal/guide/playable.dynamicMask';
-import { PayableGuide } from '../internal/guide/playable.guide';
+import { PlayableGuide } from '../internal/guide/playable.guide';
 import { PlayableDynamicFinger } from '../internal/guide/playable.dynamicFinger';
 import { PlayableManagerEvent } from './playable.manager.message';
 const { ccclass, property } = _decorator;
@@ -11,9 +11,9 @@ export class PlayableManagerGuide extends SingletonComponent<PlayableManagerGuid
 {
     private _finger: PlayableDynamicFinger
     private _mask: PlayableDynamicMask
-    private _guideQueue: PayableGuide[] = []
+    private _guideQueue: PlayableGuide[] = []
     private _label_Content: Label
-    private _currentGuide: PayableGuide
+    private _currentGuide: PlayableGuide
 
     public get Finger()
     {
@@ -30,7 +30,7 @@ export class PlayableManagerGuide extends SingletonComponent<PlayableManagerGuid
         return this._label_Content;
     }
 
-    public add(guide: PayableGuide): void
+    public add(guide: PlayableGuide): void
     {
         if (this._guideQueue.indexOf(guide) == -1)
         {
@@ -38,7 +38,7 @@ export class PlayableManagerGuide extends SingletonComponent<PlayableManagerGuid
         }
     }
 
-    public remove(guide: PayableGuide): void
+    public remove(guide: PlayableGuide): void
     {
         let index = this._guideQueue.indexOf(guide);
         if (index != -1)

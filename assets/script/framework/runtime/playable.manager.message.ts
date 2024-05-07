@@ -71,7 +71,7 @@ export class PlayableManagerEvent extends Singleton<PlayableManagerEvent>
         {
             handlers.forEach(handler =>
             {
-                if (handler.name == "onceAnyHandler")
+                if (handler.name == "onceAnyHandler" || handler.name == "u")
                 {
                     handler(event, ...args);
                 }
@@ -104,10 +104,5 @@ export class PlayableManagerEvent extends Singleton<PlayableManagerEvent>
     public clean(event: string)
     {
         this.listeners[event] = null;
-    }
-
-    public console()
-    {
-        console.log("message")
     }
 }
