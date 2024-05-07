@@ -12,6 +12,7 @@ export class PlayableGamePlayCore extends Component
 
     protected onOrientationChangedBindEvent = this.onOrientationChanged.bind(this);
     protected onCanvasResizeBindEvent = this.onCanvasResize.bind(this);
+    protected onSceneClickBindEvent = this.onSceneClick.bind(this);
 
     public get IsActive(): boolean
     {
@@ -26,11 +27,12 @@ export class PlayableGamePlayCore extends Component
         this.onCanvasResize();
         PlayableManagerEvent.getInstance().on("onOrientationChanged", this.onOrientationChangedBindEvent);
         PlayableManagerEvent.getInstance().on("onCanvasResize", this.onCanvasResizeBindEvent);
+        PlayableManagerEvent.getInstance().on("onSceneClick", this.onSceneClickBindEvent);
     }
 
     public onGameUpdate(deltaTime: number)
     {
-        
+
     }
 
     public async onGameStart(): Promise<void>
@@ -48,6 +50,7 @@ export class PlayableGamePlayCore extends Component
     {
         PlayableManagerEvent.getInstance().off("onOrientationChanged", this.onOrientationChangedBindEvent)
         PlayableManagerEvent.getInstance().off("onCanvasResize", this.onCanvasResizeBindEvent)
+        PlayableManagerEvent.getInstance().off("onSceneClick", this.onSceneClickBindEvent)
 
         this.isActive = false;
     }
@@ -63,12 +66,17 @@ export class PlayableGamePlayCore extends Component
     }
 
     protected onOrientationChanged(orientation: EScreenOrientation)
-    {   
+    {
 
     }
 
     protected onCanvasResize()
     {
-        
+
+    }
+
+    protected onSceneClick(node: Node)
+    {
+
     }
 }

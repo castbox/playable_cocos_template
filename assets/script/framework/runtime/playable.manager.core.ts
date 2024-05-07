@@ -3,6 +3,7 @@ import SingletonComponent from '../utils/singletonOf.component';
 import { PlayableGamePlayCore } from '../internal/gamePlay/playable.gamePlay.core';
 import { PlayableManagerEvent } from './playable.manager.message';
 import { PlayableManagerConfig } from './playable.manager.config';
+import { PlayableManagerScene } from './playable.manager.scene';
 const { ccclass, property } = _decorator;
 
 export enum EScreenOrientation
@@ -42,10 +43,13 @@ export class PlayableManagerCore extends SingletonComponent<PlayableManagerCore>
     return this._screenSize;
   }
 
-  protected onLoad()
+  protected async onLoad()
   {
     // 初始化配置
-    PlayableManagerConfig.getInstance().init();
+    await PlayableManagerConfig.getInstance().init();
+    // 加载场景
+    PlayableManagerScene.getInstance().startup();
+    // 初始化进行一次屏幕适配
     this.onCanvasResize(true);
   }
 

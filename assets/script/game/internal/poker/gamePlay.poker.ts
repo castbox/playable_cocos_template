@@ -149,7 +149,7 @@ export class GamePlayPoker extends PlayableDraggable
     protected override onDragStart()
     {
         super.onDragStart();
-        PlayableManagerEvent.getInstance().emit("onSceneClick", this);
+        PlayableManagerEvent.getInstance().emit("onSceneClick", this.node);
 
         const popLst = this.BelongsTo.moveOut(this)
         if (popLst.length > 0)
@@ -184,7 +184,7 @@ export class GamePlayPoker extends PlayableDraggable
     protected override onClick()
     {
         PlayableManagerEvent.getInstance().emit("onPokerClick", this);
-        PlayableManagerEvent.getInstance().emit("onSceneClick", this);
+        PlayableManagerEvent.getInstance().emit("onSceneClick", this.node);
     }
 
     private refresh()

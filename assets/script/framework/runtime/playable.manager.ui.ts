@@ -39,14 +39,17 @@ export class PlayableManagerUI extends SingletonComponent<PlayableManagerUI>
             {
                 if (this._openList.has(prefabName)) 
                 {
-                    return this._openList.get(prefabName) as PlayableUI;
+                    const ui = this._openList.get(prefabName);
+                    ui.node.active = true; 
+                    resolve(ui)
+                    return;
                 }
-    
+
                 const ui = await PlayableManagerResource.loadPrefab<PlayableUI>(PlayableUI, `prefab/ui/${prefabName}`);
                 ui.node.setParent(this._canvas.node)
                 this._openList.set(prefabName, ui);
-                ui.init();
-                ui.open();
+                await ui.init();
+                await ui.open();
                 resolve(ui);
             }
             catch (error)
@@ -55,6 +58,18 @@ export class PlayableManagerUI extends SingletonComponent<PlayableManagerUI>
                 reject(error);
             }
         });
+    }
+
+    public hideUI(prefabName: string)
+    {
+        if (!this._openList.has(prefabName)) 
+        {
+            console.warn("Failed to hide ui, it is not opened: " + prefabName);
+            return;
+        }
+
+        const ui = this._openList.get(prefabName);
+        ui.hide();
     }
 
     public closeUI(prefabName: string)

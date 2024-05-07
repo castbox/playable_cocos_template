@@ -33,7 +33,7 @@ export class PlayableManagerInput extends SingletonComponent<PlayableManagerInpu
     {
         const touch = event.getTouches()[0];
         const screenPos = touch.getLocation();
-        PlayableManagerScene.getInstance().Camera.screenToWorld(new Vec3(screenPos.x, screenPos.y, 0), this.LastTouchPos);
+        this.LastTouchPos = PlayableManagerScene.getInstance().Camera.screenToWorld(new Vec3(screenPos.x, screenPos.y, 0));
 
         PlayableManagerEvent.getInstance().emit("onSceneClick");
     }

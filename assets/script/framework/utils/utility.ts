@@ -1,4 +1,4 @@
-import { Component, director, instantiate, Node, resources, Prefab, sys, Vec3, JsonAsset, AudioClip, Mat4, UITransform } from "cc";
+import { Component, director, instantiate, Node, resources, Prefab, sys, Vec3, JsonAsset, AudioClip, Mat4, UITransform, Widget, Layers } from "cc";
 
 export class utility
 {
@@ -167,5 +167,23 @@ export class utility
         const worldPosition = uiTransform.convertToWorldSpaceAR(new Vec3(localX, localY, 0));
 
         return worldPosition;
+    }
+
+    public static updateWidgetAlignment(node: Node)
+    {
+        const widgets = node.getComponentsInChildren(Widget);
+        for (const widget of widgets)
+        {
+            widget.updateAlignment();
+        }
+    }
+
+    public static setLayer(node: Node, ...layer: string[])
+    {
+        node.layer = 0;
+        for (const layerName of layer)
+        {
+            node.layer |=  1 << Layers.nameToLayer(layerName);
+        }
     }
 }

@@ -1,4 +1,4 @@
-import { Component, _decorator } from "cc";
+import { Component, TERRAIN_HEIGHT_BASE, _decorator } from "cc";
 import { PlayableManagerEvent } from "../../runtime/playable.manager.message";
 import { EScreenOrientation, PlayableManagerCore } from "../../runtime/playable.manager.core";
 const { ccclass, property } = _decorator;
@@ -8,15 +8,20 @@ export class PlayableUI extends Component
 {
     protected onOrientationChangedBindEvent = this.onOrientationChanged.bind(this);
 
-    public init()
+    public async init(): Promise<void>
     {
 
     }
 
-    public open() 
+    public async open(): Promise<void> 
     {
         this.onOrientationChanged(PlayableManagerCore.getInstance().SceneOrientation)
         PlayableManagerEvent.getInstance().on("onOrientationChanged", this.onOrientationChangedBindEvent)
+    }
+
+    public hide()
+    {
+        this.node.active = false;
     }
 
     public close()

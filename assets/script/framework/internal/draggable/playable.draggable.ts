@@ -28,7 +28,7 @@ export class DragInfo
 export class PlayableDraggable extends Component
 {
     @property(CCBoolean)
-    public Intractable : boolean = true;
+    public Intractable: boolean = true;
 
     private _isDragging: boolean = false;
     public get isDragging(): boolean
@@ -65,12 +65,11 @@ export class PlayableDraggable extends Component
 
     private onTouchStart(event: EventTouch)
     {
-       
+
     }
 
     private onTouchMove(event: EventTouch)
     {
-        console.log("move")
         if (!this.Intractable || !this._draggable)
         {
             return;
@@ -89,20 +88,7 @@ export class PlayableDraggable extends Component
                 return;
             }
 
-            const startWorldPos = PlayableManagerScene.getInstance().Camera.screenToWorld(new Vec3(startScreenPos.x, startScreenPos.y, 0));
-            const worldPos = PlayableManagerScene.getInstance().Camera.screenToWorld(new Vec3(screenPos.x, screenPos.y, 0));
-            worldPos.z = 0;
-            const deltaWorldPos = new Vec3(worldPos.x - startWorldPos.x, worldPos.y - startWorldPos.y, 0);
-            this._lastDragInfo.set
-                (
-                    startScreenPos,
-                    screenPos,
-                    deltaScreen,
-                    startWorldPos,
-                    worldPos,
-                    deltaWorldPos
-                )
-
+            this.prepareData(event);
             if (!this.isDragging)
             {
                 this._draggable = this.onDragStart();
@@ -127,6 +113,7 @@ export class PlayableDraggable extends Component
 
         if (!this._isDragging)
         {
+            this.prepareData(event);
             this.onClick();
             return;
         }
@@ -158,6 +145,28 @@ export class PlayableDraggable extends Component
         this._draggable = true;
         this._isDragging = false;
         this.onDragCancel();
+    }
+
+    private prepareData(event: EventTouch)
+    {
+        const touch = event.getTouches()[0];
+        const startScreenPos = touch.getStartLocation();
+        const screenPos = touch.getLocation();
+        const deltaScreen = new Vec2(screenPos.x - startScreenPos.x, screenPos.y - startScreenPos.y);
+
+        const startWorldPos = PlayableManagerScene.getInstance().Camera.screenToWorld(new Vec3(startScreenPos.x, startScreenPos.y, 0));
+        const worldPos = PlayableManagerScene.getInstance().Camera.screenToWorld(new Vec3(screenPos.x, screenPos.y, 0));
+        worldPos.z = 0;
+        const deltaWorldPos = new Vec3(worldPos.x - startWorldPos.x, worldPos.y - startWorldPos.y, 0);
+        this._lastDragInfo.set
+            (
+                startScreenPos,
+                screenPos,
+                deltaScreen,
+                startWorldPos,
+                worldPos,
+                deltaWorldPos
+            )
     }
 
     protected onDragStart(): boolean
