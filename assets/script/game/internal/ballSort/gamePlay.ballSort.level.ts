@@ -1,4 +1,4 @@
-import { Vec3, tween } from "cc";
+import { Tween, Vec3, tween } from "cc";
 import { PlayableGamePlayCore } from "../../../framework/internal/gamePlay/playable.gamePlay.core";
 import { PlayableManagerEvent } from "../../../framework/runtime/playable.manager.message";
 import { GamePlayBallSortBall } from "./gamePlay.ballSort.ball";
@@ -114,11 +114,22 @@ export class GamePlayBallSortLevel extends PlayableGamePlayCore
     {
         return new Promise<GamePlayBallSortBall>((resolve, reject) =>
         {
+            Tween.stopAllByTarget(this.node)
+
+            const offset1 = bottle.TopPos_world.clone().add(new Vec3(10, 0, 0))
+            const offset2 = bottle.TopPos_world.clone().subtract(new Vec3(10, 0, 0))
+
             const time = Vec3.distance(ball.node.worldPosition, bottle.TopPos_world) / PlayableManagerConfig.getInstance().settings.json.ballSort.move_speed;
-            tween(ball.node).to(time, { worldPosition: bottle.TopPos_world }).call(() =>
-            {
-                resolve(ball);
-            }).start();
+            tween(ball.node).
+                to(time, { worldPosition: bottle.TopPos_world }, { easing: 'bounceOut' }).
+                to(0.05, { worldPosition: offset1 }, { easing: 'bounceOut' }).
+                to(0.05, { worldPosition: bottle.TopPos_world }, { easing: 'bounceOut' }).
+                to(0.05, { worldPosition: offset2 }, { easing: 'bounceOut' }).
+                to(0.05, { worldPosition: bottle.TopPos_world }, { easing: 'bounceOut' }).
+                call(() =>
+                {
+                    resolve(ball);
+                }).start();
         });
     }
 }
