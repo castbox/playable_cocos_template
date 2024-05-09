@@ -61,6 +61,12 @@ export class PlayableManagerScene extends SingletonComponent<PlayableManagerScen
         PlayableManagerEvent.getInstance().emit("onJumpToStore");
     }
 
+    public startup(): void
+    {
+        this.nextGamePlay();
+        PlayableManagerAudio.getInstance().mute()
+    }
+
     protected onLoad(): void
     {
         this._canvas = this.node.getComponentInChildren(Canvas);
@@ -77,12 +83,6 @@ export class PlayableManagerScene extends SingletonComponent<PlayableManagerScen
         {
             element.node.active = false;
         });
-    }
-
-    protected start(): void
-    {
-        this.nextGamePlay();
-        PlayableManagerAudio.getInstance().mute()
     }
 
     protected update(deltaTime: number): void

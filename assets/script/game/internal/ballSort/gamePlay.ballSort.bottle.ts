@@ -148,7 +148,7 @@ export class GamePlayBallSortBottle extends Component
     {
         PlayableManagerEvent.getInstance().emit("onBottleClick", this)
 
-        PlayableManagerEvent.getInstance().emit("onSceneClick", this)
+        PlayableManagerEvent.getInstance().emit("onSceneClick", this.node)
     }
 }
 

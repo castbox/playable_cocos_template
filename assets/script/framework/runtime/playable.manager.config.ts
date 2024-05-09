@@ -12,6 +12,14 @@ export class PlayableManagerConfig extends Singleton<PlayableManagerConfig>
 
     public async init()
     {
-        this._settings = await PlayableManagerResource.LoadJsonConfig()
+        try
+        {
+            this._settings = await PlayableManagerResource.LoadJsonConfig("settings")
+        }
+        catch (error)
+        {
+            console.error(error)
+        }
+        console.log(this._settings.json)
     }
 }
