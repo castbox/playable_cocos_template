@@ -35,7 +35,6 @@ export class GamePlayFindOutLevel extends PlayableGamePlayCore
 
     private _logic : GamePlayFindOutLogic
     private onSelectBindEvent = this.onSelected.bind(this);
-    private onSceneClickBindEvent = this.onSceneClick.bind(this);
 
     protected selectCount: number;
     protected currentSelectCnt: number;
@@ -65,7 +64,6 @@ export class GamePlayFindOutLevel extends PlayableGamePlayCore
         this._logic.onEnter(this.node);
 
         PlayableManagerEvent.getInstance().on("onSelect", this.onSelectBindEvent);
-        PlayableManagerEvent.getInstance().on("onSceneClick", this.onSceneClickBindEvent);
 
         const maskSelectable = this.SelectableList.find((selectable) => selectable.WillMask);
         PlayableManagerGuide.getInstance().Mask.addCircleTarget(maskSelectable.node.getWorldPosition(), 80);
@@ -96,7 +94,6 @@ export class GamePlayFindOutLevel extends PlayableGamePlayCore
         this._logic.onEnd();
 
         PlayableManagerEvent.getInstance().off("onSelect", this.onSelectBindEvent);
-        PlayableManagerEvent.getInstance().off("onSceneClick", this.onSceneClickBindEvent);
     }
 
     public async onGameOver(): Promise<void>
@@ -104,9 +101,11 @@ export class GamePlayFindOutLevel extends PlayableGamePlayCore
         super.onGameOver();
     }
 
-    protected onSceneClick(clickNode)
+    protected override onSceneClick(clickNode)
     {
-        if (clickNode == PlayableManagerScene.getInstance().node)
+        super.onSceneClick(clickNode);
+
+        if (clickNode == null)
         {
             PlayableManagerAudio.getInstance().playSFX("click_error");
         }

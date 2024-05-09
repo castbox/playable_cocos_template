@@ -34,13 +34,7 @@ export class PlayableManagerScene extends SingletonComponent<PlayableManagerScen
     {
         return this._currentGamePlay;
     }
-
-    private _mouseWsPosition: Vec3;
-    public get MouseWsPosition(): Vec3
-    {
-        return this._mouseWsPosition;
-    }
-
+    
     private _curGamePlayIndex: number = 0;
     public get CurGamePlayIndex(): number
     {

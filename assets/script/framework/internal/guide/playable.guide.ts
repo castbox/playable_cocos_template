@@ -20,7 +20,7 @@ export class PlayableGuide
     private onCanvasResizeBindEvent = this.onCanvasResize.bind(this);
     private onOrientationChangedBindEvent = this.onOrientationChanged.bind(this);
 
-    public async active(): Promise<void>
+    public async init() : Promise<void>
     {
         this.mask = PlayableManagerGuide.getInstance().Mask;
         this.finger = PlayableManagerGuide.getInstance().Finger;
@@ -29,6 +29,11 @@ export class PlayableGuide
 
         PlayableManagerEvent.getInstance().on("onCanvasResize", this.onCanvasResizeBindEvent);
         PlayableManagerEvent.getInstance().on("onOrientationChanged", this.onOrientationChangedBindEvent);
+    }
+
+    public async active(): Promise<void>
+    {
+
     }
 
     public async show(): Promise<void>

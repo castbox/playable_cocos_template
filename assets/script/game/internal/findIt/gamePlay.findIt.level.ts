@@ -17,7 +17,13 @@ export class GamePlayFindItLevel extends PlayableGamePlayCore
     protected package: GamePlayFindItPackage;
     protected failure: Node;
 
+    public get Pieces(): GamePlayFindItPieces
+    {
+        return this.pieces;
+    }
+
     private _onFindPieceBindEvent = this.onFindPiece.bind(this);
+
     protected override onLoad(): void
     {
         this.pieces = this.node.getComponentInChildren(GamePlayFindItPieces);

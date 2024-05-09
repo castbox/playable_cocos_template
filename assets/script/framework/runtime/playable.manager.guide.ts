@@ -34,6 +34,7 @@ export class PlayableManagerGuide extends SingletonComponent<PlayableManagerGuid
     {
         if (this._guideQueue.indexOf(guide) == -1)
         {
+            guide.init();
             this._guideQueue.push(guide);
         }
     }
