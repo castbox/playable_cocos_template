@@ -119,20 +119,20 @@
 
   - 需要在横屏和竖屏交集范围內放置可交互物体，这样才能保证横竖屏切换时可交互物体不会被摄像机裁剪掉，从而影响游戏进程。
 
-    <img src="./img/interact.png" alt="interact" style="zoom:25%;" />
+    <img src="./img/interact.png" alt="interact" style="zoom:;" />
 
   - 按照可视范围大小调整关卡场景的缩放比例。
 
   - `layout`可以自动让子物体按照横纵方向排列。
 
-    <img src="./img/layout.png" alt="layout"  />
+    <img src="./img/layout.png" alt="layout" style="zoom:;" />
 
     - 无论选择以什么方式排列，影响的只是子物体的坐标。
     - 可以根据子物体的大小自动适配`Layout`的大小（`Resize` 选择`CONTAINER`模式），也可以根据`Layout`的大小适配子物体的大小（`Resize` 选择`CHELDREN`模式）， 但需要注意只会影响选择的那个方向。
 
   - `widget`可以通过设置对齐参数动态改变元素位置和大小。
 
-    <img src="./img/widget.png" alt="widget"  />
+    <img src="./img/widget.png" alt="widget" style="zoom:;" />
 
     - 坐标对齐
 
@@ -179,9 +179,9 @@
 
   - 设置宽高比自适应策略，下面分别是竖屏和横屏的情况。
 
-    <img src="./img/fit_portrait.png" alt="fit_portrait" style="zoom:25%;" />
+    <img src="./img/fit_portrait.png" alt="fit_portrait" style="zoom:;" />
 
-    <img src="./img/fit_landscape.png" alt="fit_landscape" style="zoom:25%;" />
+    <img src="./img/fit_landscape.png" alt="fit_landscape" style="zoom:;" />
 
 - #### 更换编辑器版本
 
