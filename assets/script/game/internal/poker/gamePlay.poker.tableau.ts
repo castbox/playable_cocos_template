@@ -4,6 +4,7 @@ import { GamePlayPokerHoling } from './gamePlay.poker.holding';
 import { PlayableManagerEvent } from '../../../framework/runtime/playable.manager.message';
 import { IGamePlayPokerContainer } from './gamePlay.poker.container';
 import { utility } from '../../../framework/utils/utility';
+import { PlayableManagerAudio } from '../../../framework/runtime/playable.manager.audio';
 const { ccclass, property } = _decorator;
 
 @ccclass('GamePlayPokerTableau')
@@ -110,6 +111,7 @@ export class GamePlayPokerTableau extends Component implements IGamePlayPokerCon
         utility.setParent(poker.node, this._root);
         this.pokerStack.push(poker);
         PlayableManagerEvent.getInstance().emit("onPokerAddTableau", this, poker);
+        PlayableManagerAudio.getInstance().playSFX("flip")
 
         if (this.checkIsComplete())
         {
