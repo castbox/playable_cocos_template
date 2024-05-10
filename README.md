@@ -1,4 +1,4 @@
-## Playable Template 2D
+## Playable Template
 
 [![](https://img.shields.io/badge/Release-1.0.0-orange.svg)](https://github.com/castbox/playable_cocos_template_2d/releases)
 
