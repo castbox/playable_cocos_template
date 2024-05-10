@@ -10,7 +10,7 @@
 
 - #### 集成说明
 
-  - 在Cocos creator Dashboard中选择合适的版本，一般情况下选择最新的版本（目前最新的为3.8.2），特例是因为spine版本的原因，在有spine动画需求的时候需要选择3.7.4。
+  - 在Cocos creator Dashboard中选择合适的版本，一般情况下选择最新的版本（目前最新的为3.8.2），特例是由于spine版本的原因，在有spine动画需求的时候需要选择3.7.4。
 
   - 选择Empty(2D)模版创建项目。
   
@@ -26,7 +26,7 @@
     ```sh
     git remote add origin git@YourGithubRepo.git
     git fech -all
-    git checkout master/main
+    git checkout main
     git add .
     git commit -m "Your commit message"
     git push
@@ -56,32 +56,31 @@
 
   这里放置场景文件，所以项目都使用统一的launch场景，lanuch场景具体说明如下：
 
-  ```shell
+  ```c
   launch.scene
-  ├── playable 												// playable适配器
-  ├── scene														// 场景管理器
+  ├── playable	// playable驱动
+  ├── scene	// 场景管理器
   │   └── canvas
-  │       ├── sceneCam 								// 场景相机
-  │       ├── gamePlay								// 关卡场景需要放置在此之下
-  │       ├── vfx											// 特效播放器
-  │       └── guide 									// 引导管理器
-  │           ├── mask								// 引导遮罩
-  │           ├── finger							// 引导指引
-  │           └── content							// 引导文字说明
+  │       ├── sceneCam	// 场景相机
+  │       ├── gamePlay	// 关卡场景需要放置在此之下
+  │       ├── vfx	// 特效播放器
+  │       └── guide	// 引导管理器
+  │           ├── mask	// 引导遮罩
+  │           ├── finger	// 引导指引
+  │           └── content	// 引导文字说明
   ├── ui															
-  │   ├── canvas											// 加载的UI会放置在此之下
-  │   │   └── uiCam										// UI相机
+  │   ├── canvas	// 加载的UI会放置在此之下
+  │   │   └── uiCam	// UI相机
   │   └── canvas
-  │       └── install									// 位于全局统一的下载按钮
-  ├── audio														// 音乐播放器
+  │       └── install	// 位于全局统一的下载按钮
+  ├── audio	// 音乐播放器
   │   ├── bgm					
   │   └── sfx
-  └── input 													// 输入管理器 
-  
+  └── input	// 输入管理器 
   ```
-
   
-
+  
+  
 - #### script
 
   - ##### framework
@@ -92,12 +91,12 @@
 
     这里放置业务逻辑相关代码，具体说明如下：
 
-    ```
+    ```c
     .
-    ├── guide										// 具体项目的引导逻辑
-    ├── internal								// 抽象提炼的玩法，和具体项目解耦
-    ├── logic										// 具体项目的关卡逻辑
-    └── ui											// 具体项目的UI逻辑
+    ├── guide	// 具体项目的引导逻辑
+    ├── internal	// 抽象提炼的玩法，和具体项目解耦
+    ├── logic	// 具体项目的关卡逻辑
+    └── ui	// 具体项目的UI逻辑
     ```
     
   - ##### test
@@ -112,21 +111,71 @@
 - **类中公有字段应该首字母大写**。例如， `public String : string`
 - **类中所有的方法应该首字母小写**。例如，`private gameOver()`、`protected start()`、`public OnClick()`
 
+### TypeScript 入门
+
 ### Cocos Creator入门
 
 - #### 自适应
 
   - 需要在横屏和竖屏交集范围內放置可交互物体，这样才能保证横竖屏切换时可交互物体不会被摄像机裁剪掉，从而影响游戏进程。
 
+    <img src="./img/interact.png" alt="interact" style="zoom:25%;" />
+
   - 按照可视范围大小调整关卡场景的缩放比例。
 
-  - layout可以自动按照横纵方向排列元素 
+  - `layout`可以自动让子物体按照横纵方向排列。
 
     <img src="./img/layout.png" alt="layout"  />
 
-  - widget可以通过设置对齐参数动态改变元素位置和大小。
+    - 无论选择以什么方式排列，影响的只是子物体的坐标。
+    - 可以根据子物体的大小自动适配`Layout`的大小（`Resize` 选择`CONTAINER`模式），也可以根据`Layout`的大小适配子物体的大小（`Resize` 选择`CHELDREN`模式）， 但需要注意只会影响选择的那个方向。
+
+  - `widget`可以通过设置对齐参数动态改变元素位置和大小。
 
     <img src="./img/widget.png" alt="widget"  />
+
+    - 坐标对齐
+
+      ```typescript
+      // 启动底部坐标对齐
+      widget.isAlignBottom = true;
+      
+      // 按照绝对值对齐
+      widget.isAbsoluteBottom = true;
+      // 保持纵坐标在底部往上100pixel的距离
+      widget.bottom = 100;
+      
+      // 按照比例对齐
+      widget.isAbsoluteBottom = false;
+      // 保持纵坐标在视口底部往上百分之十的距离
+      widget.bottom = 0.1;
+      ```
+
+    - 拉伸对齐
+
+      ```typescript
+      // 启动竖直拉伸对齐
+      widget.isAlignBottom = true;
+      widget.isAlignTop = true;
+      
+      // 按照绝对值对齐
+      widget.isAbsoluteBottom = true;
+      widget.isAbsoluteTop = true;
+      // 保持底部边界拉伸至视口底部往上100pixel的位置
+      widget.top = 100;		
+      // 保持顶部边界拉伸至视口顶部往下100pixel的位置
+      widget.down = 100;
+      
+      // 按照比例拉伸
+      widget.isAbsoluteBottom = false;
+      widget.isAbsoluteTop = false;
+      // 保持底部边界拉伸至视口底部往上百分之十的位置
+      widget.top = 0.1
+      // 保持顶部边界拉伸至视口顶部往下百分之十的位置
+      widget.buttom = 0.1
+      ```
+
+      
 
   - 设置宽高比自适应策略，下面分别是竖屏和横屏的情况。
 
@@ -173,47 +222,6 @@
 
 ### 运行时（Framwork.Runtime）
 
-#### Playbale管理器（PlaybaleManagerCore）
-
-- ##### 通过内置的`onOrientationChanged`和`onCanvasResize`事件实时调整页面布局
-
-- ##### 通过设置适配纵横比的方式来调整页面布局
-
-- ##### 通过Layout功能调整页面布局
-
-  在横竖屏自动切换的时候，特别是2d资源，可以借助自动重排的功能可以使之可定制化地自适应。
-
-  ```typescript
-  // 清理当前layout，根据旋转方向重排
-  PlayableLayoutAdapter.getInstance().Clear();
-  if (sceneOrientation == EScreenOrientation.Landscape)
-  {
-      // 创建横向排布的根节点
-      let rootNode : LayoutNode = PlayableLayoutAdapter.getInstance().createLayout(ELayoutType.HORIZONTAL, 0);
-      // 创建右侧按照纵向排布节点，并制定space(排布时中间的空隙)为80
-      let right = PlayableLayoutAdapter.getInstance().createLayout(ELayoutType.VERTICAL, 80, rootNode);
-      // 往右侧元素插入三部分UI元素
-      right.PushChild(this._title.node);
-      right.PushChild(this._describe.node);
-      right.PushChild(this._input.node);
-    
-      // 在根节点下插入玩法元素和右侧的节点
-      rootNode.pushChild(this._gamePlay.node);
-      rootNode.pushChild(right.node);
-  }
-  else if (sceneOrientation == EScreenOrientation.Portrait)
-  {
-      // 创建纵向排布的根节点
-      let rootNode = PlayableLayoutAdapter.getInstance().createLayout.createLayout(ELayoutType.VERTICAL, 40);
-      
-    	// 分别插入ui元素和玩法元素
-      rootNode.pushChild(this._title.node);
-      rootNode.pushChild(this._describe.node);
-      rootNode.pushChild(this._gamePlay.node);
-      rootNode.pushChild(this._input.node);
-  }
-  ```
-
 #### 场景管理器（PlayableManagerScene）
 
 - ##### 关卡逻辑的实现步骤
@@ -226,13 +234,15 @@
 
   目前关卡以`Prefab`的形式承载，即一个关卡为一个`prefab`，每个关卡需要挂上实现`PlayableGamePlayCore`接口的组件，然后拖到`scene/canvas/gamePlay`下， 每一关结束时需要发送`onGameEnd`这个事件。
 
-  | 接口名        | 说明                                                     |
-  | :------------ | -------------------------------------------------------- |
-  | `onGameEnter` | 这一关激活时调用                                         |
-  | `onGameStart` | 关卡开始                                                 |
-  | `onUpdate`    | 这一关迭代更新，每一帧会调用                             |
-  | `onGameOver`  | 如果没有下一关了，会调用这个接口，方便做游戏结束后的操作 |
-  | `onDestroy`   | 在关闭游戏时调用，用于清理资源                           |
+  | 接口名         | 说明                                                         |
+  | :------------- | ------------------------------------------------------------ |
+  | `onGameEnter`  | 关卡激活时自动调用，主要做初始化相关操作。                   |
+  | `onGameStart`  | 关卡开始时手动调用。                                         |
+  | `onUpdate`     | 关卡迭代更新，每一帧会自动调用。                             |
+  | `onGameFinish` | 关卡结束时手动调用，可以进入直接进入下一关或者打开结算界面。 |
+  | `onGameEnd`    | 关卡销毁时手动调用。                                         |
+  | `onGameOver`   | 如果没有下一关了，会自动调用这个接口，方便做`Playable`结束后的操作，比如打开下载页面。 |
+  | `onDestroy`    | 在关闭`Playable`时调用，用于清理资源。                       |
 
 #### 事件管理器（PlayableManagerEvent）
 
@@ -340,18 +350,6 @@ const LastTouchPos: Vec3 = PlayableManagerInput.getInstance().LastTouchPos;
 
 #### 配置管理器（PlayableManagerConfig）
 
-### 基础玩法（Game.Internal）
-
-- #### Find Out
-
-- #### Find It
-
-- #### 纸牌（Poker） 
-
-- #### Ball Sort
-
-### Config
-
 所有的配置项都在`asset/resources/config/settings.json`中配置
 
 ```json
@@ -368,3 +366,13 @@ const settings: JsonAsset = PlayableManagerConfig.getInstance().settings;
 // 读取配置
 settings.json[${配置项 : string}]
 ```
+
+### 基础玩法（Game.Internal）
+
+- #### Find Out
+
+- #### Find It
+
+- #### 纸牌（Poker） 
+
+- #### Ball Sort
