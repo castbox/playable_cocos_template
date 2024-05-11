@@ -1,13 +1,10 @@
 import { _decorator, CCString, Component, Enum, Node, SpriteFrame, Tween, Vec3 } from 'cc';
 import { PlayableGamePlayCore } from "../../../framework/internal/gamePlay/playable.gamePlay.core";
-import { PlayableManagerResource } from '../../../framework/runtime/playable.manager.resource';
 import { GamePlayFindItPieces } from './gamePlay.findIt.pieces';
 import { GamePlayFindItPackage } from './gamePlay.findIt.package';
 import { PlayableManagerConfig } from '../../../framework/runtime/playable.manager.config';
 import { PlayableManagerEvent } from '../../../framework/runtime/playable.manager.message';
 import { GamePlayFindItPiece } from './gamePlay.findIt.piece';
-import { PlayableManagerAudio } from '../../../framework/runtime/playable.manager.audio';
-import { PlayableManagerInput } from '../../../framework/runtime/playable.manager.input';
 const { ccclass, property } = _decorator;
 
 @ccclass('GamePlayFindItLevel')

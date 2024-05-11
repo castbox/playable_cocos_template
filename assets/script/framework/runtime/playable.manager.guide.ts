@@ -105,6 +105,9 @@ export class PlayableManagerGuide extends SingletonComponent<PlayableManagerGuid
     protected end()
     {
         console.log("end guide")
+        this._finger.end();
+        this._mask.end();
+
         PlayableManagerEvent.getInstance().emit("onGuideEnd")
     }
 }

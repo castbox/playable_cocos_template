@@ -64,20 +64,9 @@ export class PlayableGuide
 
     protected async attachEvents(avoidEvents: string[] = [], checkEvents: string[] = [])
     {
-        avoidEvents.push("onOrientationChanged", "onCanvasResize")
-
         PlayableManagerEvent.getInstance().once_any((event: string) =>
         {
             this.hide()
-
-            if (event == "onOrientationChanged" || event == "onCanvasResize")
-            {
-                if (!this.isEnd)
-                {
-                    this.show();
-                }
-                return;
-            }
 
             const step = () =>
             {

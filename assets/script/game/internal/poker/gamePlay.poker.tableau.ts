@@ -131,14 +131,6 @@ export class GamePlayPokerTableau extends Component implements IGamePlayPokerCon
         PlayableManagerEvent.getInstance().emit("onPokerRemoveTableau", this, poker);
     }
 
-    public restState()
-    {
-        this._layout.enabled = false;
-        this._layout.enabled = true;
-        this._layout.alignVertical = false
-        this._layout.alignVertical = true
-    }
-
     public contains(poker: GamePlayPoker): boolean
     {
         return this.pokerStack.indexOf(poker) >= 0;

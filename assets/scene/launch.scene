@@ -301,7 +301,7 @@
     "_priority": 0,
     "_fov": 45,
     "_fovAxis": 0,
-    "_orthoHeight": 863.4439178515008,
+    "_orthoHeight": 1088.7649402390437,
     "_near": 0,
     "_far": 1000,
     "_color": {
@@ -1710,7 +1710,7 @@
     "_priority": 1,
     "_fov": 45,
     "_fovAxis": 0,
-    "_orthoHeight": 863.4439178515008,
+    "_orthoHeight": 1088.7649402390437,
     "_near": 0,
     "_far": 1000,
     "_color": {
