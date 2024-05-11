@@ -1,4 +1,4 @@
-import { _decorator, Component, Graphics, Mask, Material, Node, Size, Sprite, UITransform, Vec3} from 'cc';
+import { _decorator, Component, Graphics, Mask, Material, Node, Size, Sprite, UITransform, Vec3 } from 'cc';
 import { PlayableManagerEvent } from '../../runtime/playable.manager.message';
 const { ccclass, property } = _decorator;
 
@@ -12,7 +12,7 @@ export class MaskTarget
 {
     maskType: MaskType;
     Target: Node;
-    size : Size
+    size: Size
 
     constructor(maskType: MaskType, target: Node, size: Size)
     {
@@ -41,7 +41,7 @@ export class PlayableDynamicMask extends Component
         this.hide();
     }
 
-    public circle(target : Node, radius : number) : MaskTarget
+    public circle(target: Node, radius: number): MaskTarget
     {
         this.node.active = true;
 
@@ -52,7 +52,7 @@ export class PlayableDynamicMask extends Component
         return tgt;
     }
 
-    public rectangle(target : Node, width : number, height : number) : MaskTarget
+    public rectangle(target: Node, width: number, height: number): MaskTarget
     {
         this.node.active = true;
 
@@ -85,26 +85,29 @@ export class PlayableDynamicMask extends Component
     {
         this._maskGraphics.clear();
 
-        
+
         this._masks.forEach(mask => 
+        {
+            const targetPos = this.node.getComponent(UITransform).convertToNodeSpaceAR(mask.Target.getWorldPosition());
+            switch (mask.maskType)
             {
-                const targetPos = this.node.getComponent(UITransform).convertToNodeSpaceAR(mask.Target.getWorldPosition());
-                switch(mask.maskType)
-                {
-                    case MaskType.Circle:
-                        this._maskGraphics.circle(targetPos.x, targetPos.y, mask.size.width)
-                        break;
-                    case MaskType.Rectangle:
-                        this._maskGraphics.rect(targetPos.x - mask.size.width / 2, targetPos.y - mask.size.height / 2, mask.size.width, mask.size.height)
-                        break;
-                }
-            })
+                case MaskType.Circle:
+                    this._maskGraphics.circle(targetPos.x, targetPos.y, mask.size.width)
+                    break;
+                case MaskType.Rectangle:
+                    this._maskGraphics.rect(targetPos.x - mask.size.width / 2, targetPos.y - mask.size.height / 2, mask.size.width, mask.size.height)
+                    break;
+            }
+        })
         this._maskGraphics.fill();
     }
 
     private onResize()
     {
-        this.draw();
+        this.scheduleOnce(() =>
+        {
+            this.draw();
+        }, 0.1)
     }
 }
 

@@ -98,6 +98,9 @@ export class PlayableDynamicFinger extends Component
 
     private onResize()
     {
-        this.draw();
+        this.scheduleOnce(() =>
+        {
+            this.draw();
+        }, 0.1);
     }
 }
