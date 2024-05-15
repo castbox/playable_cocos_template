@@ -53,6 +53,8 @@ export class GamePlayFindOutLevel extends PlayableGamePlayCore
 
     public override async onGameEnter(): Promise<void>
     {
+        super.onGameEnter();
+
         this.node.active = false;
 
         this.currentSelectCnt = 0;
@@ -91,6 +93,8 @@ export class GamePlayFindOutLevel extends PlayableGamePlayCore
 
     public override async onGameEnd()
     {
+        super.onGameEnd();
+
         this._logic.onEnd();
 
         PlayableManagerEvent.getInstance().off("onSelect", this.onSelectBindEvent);
