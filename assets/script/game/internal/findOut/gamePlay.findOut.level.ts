@@ -66,8 +66,8 @@ export class GamePlayFindOutLevel extends PlayableGamePlayCore
         PlayableManagerEvent.getInstance().on("onSelect", this.onSelectBindEvent);
 
         const maskSelectable = this.SelectableList.find((selectable) => selectable.WillMask);
-        PlayableManagerGuide.getInstance().Mask.circle(maskSelectable.node.getWorldPosition(), 80);
-        PlayableManagerGuide.getInstance().Finger.point(maskSelectable.node.getWorldPosition());
+        PlayableManagerGuide.getInstance().Mask.circle(maskSelectable.node, 80);
+        PlayableManagerGuide.getInstance().Finger.point(maskSelectable.node);
         PlayableManagerEvent.getInstance().once("onSceneClick", () =>
         {
             PlayableManagerGuide.getInstance().Mask.hide();
