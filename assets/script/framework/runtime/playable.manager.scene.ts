@@ -12,8 +12,6 @@ const { ccclass, property } = _decorator;
 @ccclass('PlayableManagerScene')
 export class PlayableManagerScene extends SingletonComponent<PlayableManagerScene>
 {
-    private _canvas: Canvas = null;
-
     @property(Button)
     public Btn_Install: Button
 
@@ -34,16 +32,11 @@ export class PlayableManagerScene extends SingletonComponent<PlayableManagerScen
     {
         return this._currentGamePlay;
     }
-    
+
     private _curGamePlayIndex: number = 0;
     public get CurGamePlayIndex(): number
     {
         return this._curGamePlayIndex;
-    }
-
-    public get CanvasSize(): Vec2
-    {
-        return new Vec2(this._canvas.node.getComponent(UITransform).contentSize.width, this._canvas.node.getComponent(UITransform).contentSize.height)
     }
 
     private _onOrientationChangedBindEvent = this.onOrientationChanged.bind(this);
@@ -63,7 +56,6 @@ export class PlayableManagerScene extends SingletonComponent<PlayableManagerScen
 
     protected onLoad(): void
     {
-        this._canvas = this.node.getComponentInChildren(Canvas);
         this._camera = this.node.getComponentInChildren(Camera);
         this._gamePlayList = this.node.getComponentsInChildren(PlayableGamePlayCore);
 
@@ -92,6 +84,18 @@ export class PlayableManagerScene extends SingletonComponent<PlayableManagerScen
         PlayableManagerEvent.getInstance().off("onOrientationChanged", this._onOrientationChangedBindEvent);
         PlayableManagerEvent.getInstance().off("onJumpToStore", this._onJumpToStoreBindEvent);
         PlayableManagerEvent.getInstance().off("onGameEnd", this._onGameEndBindEvent);
+    }
+
+    protected onOrientationChanged(orientation: EScreenOrientation)
+    {
+        if (orientation == EScreenOrientation.Landscape)
+        {
+
+        }
+        else
+        {
+
+        }
     }
 
     private nextGamePlay()
@@ -131,21 +135,6 @@ export class PlayableManagerScene extends SingletonComponent<PlayableManagerScen
     {
         const settings: JsonAsset = PlayableManagerConfig.getInstance().settings;
         utility.JumpToStore(settings.json.store.google, settings.json.store.ios)
-    }
-
-    private onOrientationChanged(orientation: EScreenOrientation)
-    {
-        this._canvas.alignCanvasWithScreen = false
-        this._canvas.alignCanvasWithScreen = true
-
-        if (orientation == EScreenOrientation.Landscape)
-        {
-
-        }
-        else
-        {
-
-        }
     }
 }
 
