@@ -25,14 +25,14 @@ export class PlayableDraggableScrolling extends PlayableDraggable
     protected override onDragStart(): boolean
     {
         this._startPos = this.node.position.clone();
-        this._cachedPos = this.node.parent.getComponent(UITransform).convertToNodeSpaceAR(this.lastDragInfo.CurrentWSPos);
+        this._cachedPos = this.node.parent.getComponent(UITransform).convertToNodeSpaceAR(this.LastTouchData.CurrentWSPos);
 
         return true;
     }
 
     protected override onDragMove(): void
     {
-        const currentPos = this.node.parent.getComponent(UITransform).convertToNodeSpaceAR(this.lastDragInfo.CurrentWSPos);
+        const currentPos = this.node.parent.getComponent(UITransform).convertToNodeSpaceAR(this.LastTouchData.CurrentWSPos);
         const deltaPos = currentPos.subtract(this._cachedPos);
 
 

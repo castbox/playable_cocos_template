@@ -55,7 +55,7 @@ export class GamePlayFindItLevel extends PlayableGamePlayCore
         {
             this.unscheduleAllCallbacks();
             this.failure.active = true;
-            this.failure.worldPosition = this.pieces.lastDragInfo.CurrentWSPos;
+            this.failure.worldPosition = this.pieces.LastTouchData.CurrentWSPos;
             this.scheduleOnce(async () =>
             {
                 this.failure.active = false;

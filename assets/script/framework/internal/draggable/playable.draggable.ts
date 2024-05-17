@@ -1,28 +1,8 @@
 import { _decorator, CCBoolean, Component, EventTouch, JsonAsset, Node, Vec2, Vec3 } from 'cc';
 import { PlayableManagerScene } from '../../runtime/playable.manager.scene';
-import { PlayableManagerResource } from '../../runtime/playable.manager.resource';
 import { PlayableManagerConfig } from '../../runtime/playable.manager.config';
+import { TouchData } from '../../data/playable.data.const';
 const { ccclass, property } = _decorator;
-
-export class DragInfo
-{
-    public StartScreenPos: Vec2;
-    public CurrentScreenPos: Vec2;
-    public OffSetScreen: Vec2;
-    public StartWSPos: Vec3;
-    public CurrentWSPos: Vec3;
-    public DeltaWs: Vec3;
-
-    set(startScreenPos: Vec2, currentScreenPos: Vec2, deltaScreen: Vec2, startWSPos: Vec3, currentWSPos: Vec3, deltaWs: Vec3)
-    {
-        this.StartScreenPos = startScreenPos;
-        this.CurrentScreenPos = currentScreenPos;
-        this.OffSetScreen = deltaScreen;
-        this.StartWSPos = startWSPos;
-        this.CurrentWSPos = currentWSPos;
-        this.DeltaWs = deltaWs;
-    }
-}
 
 @ccclass('PlayableDraggable')
 export class PlayableDraggable extends Component
@@ -36,10 +16,10 @@ export class PlayableDraggable extends Component
         return this._isDragging;
     };
 
-    private _lastDragInfo: DragInfo = null;
-    public get lastDragInfo(): DragInfo
+    private _lastTouchData: TouchData = null;
+    public get LastTouchData(): TouchData
     {
-        return this._lastDragInfo;
+        return this._lastTouchData;
     }
 
     private _draggable: boolean = true;
@@ -50,7 +30,7 @@ export class PlayableDraggable extends Component
         this.node.on(Node.EventType.TOUCH_MOVE, this.onTouchMove, this);
         this.node.on(Node.EventType.TOUCH_END, this.onTouchEnd, this);
         this.node.on(Node.EventType.TOUCH_CANCEL, this.onTouchCancel, this);
-        this._lastDragInfo = new DragInfo();
+        this._lastTouchData = new TouchData();
     }
 
     protected start()
@@ -88,8 +68,8 @@ export class PlayableDraggable extends Component
                 return;
             }
 
-            this.prepareData(event);
-            if (!this.isDragging)
+            this._lastTouchData.parsing(event);
+            if (!this._isDragging)
             {
                 this._draggable = this.onDragStart();
                 this._isDragging = true;
@@ -113,7 +93,7 @@ export class PlayableDraggable extends Component
 
         if (!this._isDragging)
         {
-            this.prepareData(event);
+            this._lastTouchData.parsing(event);
             this.onClick();
             return;
         }
@@ -145,28 +125,6 @@ export class PlayableDraggable extends Component
         this._draggable = true;
         this._isDragging = false;
         this.onDragCancel();
-    }
-
-    private prepareData(event: EventTouch)
-    {
-        const touch = event.getTouches()[0];
-        const startScreenPos = touch.getStartLocation();
-        const screenPos = touch.getLocation();
-        const deltaScreen = new Vec2(screenPos.x - startScreenPos.x, screenPos.y - startScreenPos.y);
-
-        const startWorldPos = PlayableManagerScene.getInstance().Camera.screenToWorld(new Vec3(startScreenPos.x, startScreenPos.y, 0));
-        const worldPos = PlayableManagerScene.getInstance().Camera.screenToWorld(new Vec3(screenPos.x, screenPos.y, 0));
-        worldPos.z = 0;
-        const deltaWorldPos = new Vec3(worldPos.x - startWorldPos.x, worldPos.y - startWorldPos.y, 0);
-        this._lastDragInfo.set
-            (
-                startScreenPos,
-                screenPos,
-                deltaScreen,
-                startWorldPos,
-                worldPos,
-                deltaWorldPos
-            )
     }
 
     protected onDragStart(): boolean

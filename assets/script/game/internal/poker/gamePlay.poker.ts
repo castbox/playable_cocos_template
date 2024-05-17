@@ -154,7 +154,7 @@ export class GamePlayPoker extends PlayableDraggable
         const popLst = this.BelongsTo.moveOut(this)
         if (popLst.length > 0)
         {
-            PlayableManagerEvent.getInstance().emit("onPokerDragStart", popLst, this.lastDragInfo.StartWSPos)
+            PlayableManagerEvent.getInstance().emit("onPokerDragStart", popLst, this.LastTouchData.StartWSPos)
             return true
         }
         return false;
@@ -164,7 +164,7 @@ export class GamePlayPoker extends PlayableDraggable
     {
         super.onDragMove();
 
-        PlayableManagerEvent.getInstance().emit("onPokerDragMove", this.lastDragInfo.CurrentWSPos);
+        PlayableManagerEvent.getInstance().emit("onPokerDragMove", this.LastTouchData.CurrentWSPos);
     }
 
     protected override onDragEnd()
