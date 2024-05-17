@@ -11,7 +11,7 @@
   },
   {
     "__type__": "cc.Scene",
-    "_name": "launch",
+    "_name": "launch_2d",
     "_objFlags": 0,
     "__editorExtras__": {},
     "_parent": null,
@@ -301,7 +301,7 @@
     "_priority": 0,
     "_fov": 45,
     "_fovAxis": 0,
-    "_orthoHeight": 1088.7649402390437,
+    "_orthoHeight": 774.1643059490085,
     "_near": 0,
     "_far": 1000,
     "_color": {
@@ -1710,7 +1710,7 @@
     "_priority": 1,
     "_fov": 45,
     "_fovAxis": 0,
-    "_orthoHeight": 1088.7649402390437,
+    "_orthoHeight": 774.1643059490085,
     "_near": 0,
     "_far": 1000,
     "_color": {

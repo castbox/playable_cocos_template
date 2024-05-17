@@ -132,7 +132,7 @@
   {
     "__type__": "cc.Node",
     "_name": "scene",
-    "_objFlags": 0,
+    "_objFlags": 512,
     "__editorExtras__": {},
     "_parent": {
       "__id__": 1
@@ -181,7 +181,7 @@
   {
     "__type__": "cc.Node",
     "_name": "canvas",
-    "_objFlags": 0,
+    "_objFlags": 512,
     "__editorExtras__": {},
     "_parent": {
       "__id__": 4
@@ -245,7 +245,7 @@
   {
     "__type__": "cc.Node",
     "_name": "sceneCam",
-    "_objFlags": 0,
+    "_objFlags": 512,
     "__editorExtras__": {},
     "_parent": {
       "__id__": 5
@@ -336,7 +336,7 @@
   {
     "__type__": "cc.Node",
     "_name": "gamePlay",
-    "_objFlags": 0,
+    "_objFlags": 512,
     "__editorExtras__": {},
     "_parent": {
       "__id__": 5
@@ -377,7 +377,7 @@
   {
     "__type__": "cc.Node",
     "_name": "vfx",
-    "_objFlags": 0,
+    "_objFlags": 512,
     "__editorExtras__": {},
     "_parent": {
       "__id__": 5
@@ -434,7 +434,7 @@
   {
     "__type__": "cc.Node",
     "_name": "guide",
-    "_objFlags": 0,
+    "_objFlags": 512,
     "__editorExtras__": {},
     "_parent": {
       "__id__": 5
@@ -495,7 +495,7 @@
   {
     "__type__": "cc.Node",
     "_name": "mask",
-    "_objFlags": 0,
+    "_objFlags": 512,
     "__editorExtras__": {},
     "_parent": {
       "__id__": 11
@@ -556,7 +556,7 @@
   {
     "__type__": "cc.Node",
     "_name": "mask_bg",
-    "_objFlags": 0,
+    "_objFlags": 512,
     "__editorExtras__": {},
     "_parent": {
       "__id__": 12
@@ -818,7 +818,7 @@
   {
     "__type__": "cc.Node",
     "_name": "finger",
-    "_objFlags": 0,
+    "_objFlags": 512,
     "__editorExtras__": {},
     "_parent": {
       "__id__": 11
@@ -870,7 +870,7 @@
   {
     "__type__": "cc.Node",
     "_name": "finger",
-    "_objFlags": 0,
+    "_objFlags": 512,
     "__editorExtras__": {},
     "_parent": {
       "__id__": 22
@@ -1013,7 +1013,7 @@
   {
     "__type__": "cc.Node",
     "_name": "content",
-    "_objFlags": 0,
+    "_objFlags": 512,
     "__editorExtras__": {},
     "_parent": {
       "__id__": 11
@@ -1649,7 +1649,7 @@
     "_priority": 1,
     "_fov": 45,
     "_fovAxis": 0,
-    "_orthoHeight": 1088.7649402390437,
+    "_orthoHeight": 726.8085106382979,
     "_near": 0,
     "_far": 1000,
     "_color": {
