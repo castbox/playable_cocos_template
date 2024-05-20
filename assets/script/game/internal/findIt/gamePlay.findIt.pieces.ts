@@ -14,9 +14,9 @@ export class GamePlayFindItPieces extends PlayableDraggableScrolling
     @property(JsonAsset)
     public PiecesJsonData: JsonAsset = null;
 
-    public get CenterWorldPosition(): Vec3
+    public get CenterWorldNode(): Node
     {
-        return this.node.getChildByName("center").getWorldPosition();
+        return this.node.getChildByName("center");
     }
 
     private _pieces: Map<number, GamePlayFindItPieces> = new Map<number, GamePlayFindItPieces>();
