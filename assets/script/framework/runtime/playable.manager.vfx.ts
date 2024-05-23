@@ -15,6 +15,10 @@ export class PlayableManagerVFX extends SingletonComponent<PlayableManagerVFX>
             this.node.addChild(vfx.node);
             utility.setNodeWorldPositionToTarget(vfx.node, wsPos);
             vfx.play();
+            vfx.on(Animation.EventType.FINISHED, () =>
+            {
+                vfx.node.destroy();
+            });
         }
         catch (error)
         {
@@ -30,6 +34,10 @@ export class PlayableManagerVFX extends SingletonComponent<PlayableManagerVFX>
             target.addChild(vfx.node);
             vfx.node.position = new Vec3(0, 0, 0);
             vfx.play();
+            vfx.on(Animation.EventType.FINISHED, () =>
+            {
+                vfx.node.destroy();
+            });
         }
         catch (error)
         {
