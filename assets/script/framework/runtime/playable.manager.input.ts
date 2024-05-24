@@ -58,7 +58,7 @@ export class PlayableManagerInput extends SingletonComponent<PlayableManagerInpu
 
     private onTouchStart(event: EventTouch): void
     {
-
+        this._lastTouchData.parsing(event);
     }
 
     private onTouchMove(event: EventTouch): void
@@ -75,8 +75,8 @@ export class PlayableManagerInput extends SingletonComponent<PlayableManagerInpu
         }
 
         this._lastTouchData.parsing(event);
-        PlayableManagerScene.getInstance().Camera.screenPointToRay(screenPos.x, screenPos.y, this._ray)
-        if (!PhysicsSystem.instance.raycast(this._ray)) 
+        PlayableManagerScene.getInstance().Camera.Camera.screenPointToRay(screenPos.x, screenPos.y, this._ray)
+        if (PhysicsSystem && !PhysicsSystem.instance.raycast(this._ray)) 
         {
             return;
         }

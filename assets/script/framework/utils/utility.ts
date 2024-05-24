@@ -110,6 +110,23 @@ export class utility
         node.setWorldPosition(targetWorldPosition);
     }
 
+    public static GetComponentInParent<T extends Component>(componentType: new () => T, node: Node): T
+    {
+        let parent = node.parent;
+        while (parent)
+        {
+            let comp = parent.getComponent(componentType);
+            if (comp)
+            {
+                return comp;
+            }
+
+            parent = parent.parent;
+        }
+
+        return null;
+    }
+
     public static setParent(node: Node, parent: Node, worldPositionStay: boolean = false)
     {
         if (node.parent == parent)

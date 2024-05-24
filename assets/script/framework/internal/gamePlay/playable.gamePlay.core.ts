@@ -1,4 +1,4 @@
-import { _decorator, Canvas, CCString, Component } from 'cc';
+import { _decorator, Canvas, CCString, Component, Node } from 'cc';
 import { PlayableManagerEvent } from '../../runtime/playable.manager.message';
 import { EScreenOrientation, PlayableManagerCore } from '../../runtime/playable.manager.core';
 import { PlayableManagerAudio } from '../../runtime/playable.manager.audio';
