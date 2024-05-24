@@ -1,4 +1,4 @@
-import { EEntityDirection } from "../../../framework/internal/entity/playable.entity";
+import { EEntityOrientation } from "../../../framework/internal/entity/playable.entity";
 import { PlayableManagerConfig } from "../../../framework/runtime/playable.manager.config";
 import { GamePlayParking3DCar } from "./gamePlay.parking3D.car";
 
@@ -14,10 +14,10 @@ export class GamePlayParking3DUtility
         const sizeA = carA.ColliderSize;
         const sizeB = carB.ColliderSize;
 
-        const getDistance = (dir: EEntityDirection): number => 
+        const getDistance = (dir: EEntityOrientation): number => 
         {
             let distance = 0
-            if (dir === EEntityDirection.Up || dir === EEntityDirection.Down)
+            if (dir === EEntityOrientation.Up || dir === EEntityOrientation.Down)
             {
                 distance = sizeA.z + sizeB.z - Math.abs(posA.z - posB.z)
             } else
@@ -26,25 +26,25 @@ export class GamePlayParking3DUtility
             }
             return distance
         }
-        const distanceA: number = getDistance(carA.MovingDir)
-        const distanceB: number = getDistance(carB.MovingDir)
+        const distanceA: number = getDistance(carA.MovingOrientation)
+        const distanceB: number = getDistance(carB.MovingOrientation)
 
         const resetCarPos = (car: GamePlayParking3DCar, distance: number) =>
         {
             const pos = car.node.getPosition()
             const rest_gap = PlayableManagerConfig.getInstance().settings.json.parking3D.rest_gap;
-            switch (car.MovingDir)
+            switch (car.MovingOrientation)
             {
-                case EEntityDirection.Up:
+                case EEntityOrientation.Up:
                     pos.z = pos.z + distance + rest_gap;
                     break
-                case EEntityDirection.Down:
+                case EEntityOrientation.Down:
                     pos.z = pos.z - distance - rest_gap;
                     break
-                case EEntityDirection.Left:
+                case EEntityOrientation.Left:
                     pos.x = pos.x + distance + rest_gap;
                     break
-                case EEntityDirection.Right:
+                case EEntityOrientation.Right:
                     pos.x = pos.x - distance - rest_gap;
                     break
             }

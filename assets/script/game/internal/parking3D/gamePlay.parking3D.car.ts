@@ -2,7 +2,7 @@ import { _decorator, BoxCollider, Component, Game, ITriggerEvent, math, Node, Pa
 import { GamePlayParking3DRoad } from "./gamePlay.parking3D.road";
 import { PlayableManagerConfig } from "../../../framework/runtime/playable.manager.config";
 import { GamePlayParking3DEntity } from "./gamePlay.parking3D.entity";
-import { EEntityDirection } from "../../../framework/internal/entity/playable.entity";
+import { EEntityOrientation } from "../../../framework/internal/entity/playable.entity";
 import { GamePlayParking3DUtility } from "./gamePlay.parking3D.utility";
 import { GamePlayParking3DObstacle } from "./gamePlay.parking3D.obstacle";
 import { GamePlayParking3DLiftingRod } from "./gamePlay.parking3D.liftingRod";
@@ -11,7 +11,7 @@ import { PlayableManagerScene } from "../../../framework/runtime/playable.manage
 import { GamePlayParking3DLevel } from "./gamePlay.parking3D.level";
 const { ccclass, property } = _decorator;
 
-export enum ECarStatus
+export enum EParking3DCarStatus
 {
     Idle,
     Willing,
@@ -27,68 +27,68 @@ export class GamePlayParking3DCar extends GamePlayParking3DEntity
     @property(Node)
     public Hit: Node;
 
-    private _status: ECarStatus = ECarStatus.Idle;
+    private _status: EParking3DCarStatus = EParking3DCarStatus.Idle;
     private _isCollision; boolean = false;
 
-    public get Status(): ECarStatus
+    public get Status(): EParking3DCarStatus
     {
         return this._status;
     }
-    public set Status(value: ECarStatus)
+    public set Status(value: EParking3DCarStatus)
     {
         this._status = value;
     }
 
     public override move(delta: Vec2)
     {
-        if (this._status !== ECarStatus.Idle)
+        if (this._status !== EParking3DCarStatus.Idle)
         {
             return;
         }
 
-        switch (this.headDir)
+        switch (this.headOrientation)
         {
-            case EEntityDirection.Up:
-            case EEntityDirection.Down:
+            case EEntityOrientation.Up:
+            case EEntityOrientation.Down:
                 {
-                    this.movingDir = delta.y > 0 ? EEntityDirection.Up : EEntityDirection.Down;
+                    this.movingOrientation = delta.y > 0 ? EEntityOrientation.Up : EEntityOrientation.Down;
                 }
                 break
-            case EEntityDirection.Left:
-            case EEntityDirection.Right:
+            case EEntityOrientation.Left:
+            case EEntityOrientation.Right:
                 {
-                    this.movingDir = delta.x > 0 ? EEntityDirection.Right : EEntityDirection.Left;
+                    this.movingOrientation = delta.x > 0 ? EEntityOrientation.Right : EEntityOrientation.Left;
                 }
                 break
         }
-        this._status = ECarStatus.Willing;
+        this._status = EParking3DCarStatus.Willing;
     }
 
     /**
      * 撞击后重置位置
      * @param entity 撞击到的物体
      */
-    public override hit(entity: GamePlayParking3DEntity)
+    public override async onHit(entity: GamePlayParking3DEntity) : Promise<void>
     {
-        super.hit(entity);
+        await super.onHit(entity);
 
         const pos = this.node.getPosition();
         const hitPos = entity.node.getPosition();
         const size = this.ColliderSize;
         const hitSize = entity.ColliderSize;
         const rest_gap = PlayableManagerConfig.getInstance().settings.json.parking3D.rest_gap;
-        switch (this.movingDir)
+        switch (this.movingOrientation)
         {
-            case EEntityDirection.Up:
+            case EEntityOrientation.Up:
                 pos.z = hitPos.add(hitSize).add(size).z + rest_gap;
                 break
-            case EEntityDirection.Down:
+            case EEntityOrientation.Down:
                 pos.z = hitPos.subtract(hitSize).subtract(size).z - rest_gap;
                 break
-            case EEntityDirection.Left:
+            case EEntityOrientation.Left:
                 pos.x = hitPos.add(hitSize).add(size).x + rest_gap;
                 break
-            case EEntityDirection.Right:
+            case EEntityOrientation.Right:
                 pos.x = hitPos.subtract(hitSize).subtract(size).x - rest_gap;
                 break
         }
@@ -99,7 +99,7 @@ export class GamePlayParking3DCar extends GamePlayParking3DEntity
     {
         super.onLoad();
 
-        this.Status = ECarStatus.Idle;
+        this.Status = EParking3DCarStatus.Idle;
         this.Dust.active = false;
     }
 
@@ -110,22 +110,22 @@ export class GamePlayParking3DCar extends GamePlayParking3DEntity
 
     protected override updateMovement(dt: number): void
     {
-        if (this._status == ECarStatus.Willing)
+        if (this._status == EParking3DCarStatus.Willing)
         {
             const distance = PlayableManagerConfig.getInstance().settings.json.parking3D.max_speed * dt;
             const pos = this.node.getPosition()
-            switch (this.movingDir)
+            switch (this.movingOrientation)
             {
-                case EEntityDirection.Up:
+                case EEntityOrientation.Up:
                     pos.z -= distance
                     break
-                case EEntityDirection.Down:
+                case EEntityOrientation.Down:
                     pos.z += distance
                     break
-                case EEntityDirection.Left:
+                case EEntityOrientation.Left:
                     pos.x -= distance
                     break
-                case EEntityDirection.Right:
+                case EEntityOrientation.Right:
                     pos.x += distance
                     break
             }
@@ -149,8 +149,8 @@ export class GamePlayParking3DCar extends GamePlayParking3DEntity
         const obstacle = other.getComponent(GamePlayParking3DObstacle)
         if (obstacle)
         {
-            this.hit(obstacle);
-            this._status = ECarStatus.Idle;
+            this.onHit(obstacle);
+            this._status = EParking3DCarStatus.Idle;
             return;
         }
 
@@ -160,26 +160,26 @@ export class GamePlayParking3DCar extends GamePlayParking3DEntity
         {
             switch (this._status)
             {
-                case ECarStatus.Idle:
-                    this.onHit(car);
+                case EParking3DCarStatus.Idle:
+                    this.onBeHit(car);
                     break;
 
-                case ECarStatus.Willing:
+                case EParking3DCarStatus.Willing:
                     switch (car.Status)
                     {
-                        case ECarStatus.Idle:
-                            this.hit(car);
-                            this._status = ECarStatus.Idle;
+                        case EParking3DCarStatus.Idle:
+                            this.onHit(car);
+                            this._status = EParking3DCarStatus.Idle;
 
-                            if (this.headDir == this.movingDir)
+                            if (this.headOrientation == this.movingOrientation)
                             {
                                 this.Hit.children.map(c => c.getComponent(ParticleSystem).play())
                             }
                             break;
-                        case ECarStatus.Willing:
+                        case EParking3DCarStatus.Willing:
                             GamePlayParking3DUtility.collided(car, this);
-                            this._status = ECarStatus.Idle;
-                            car._status = ECarStatus.Idle;
+                            this._status = EParking3DCarStatus.Idle;
+                            car._status = EParking3DCarStatus.Idle;
                             car._isCollision = true
                             break;
                     }
@@ -189,12 +189,12 @@ export class GamePlayParking3DCar extends GamePlayParking3DEntity
         }
 
         // 接触到道路
-        if (this._status != ECarStatus.Driving)
+        if (this._status != EParking3DCarStatus.Driving)
         {
             const road = other.getComponent(GamePlayParking3DRoad);
             if (road)
             {
-                this._status = ECarStatus.Driving;
+                this._status = EParking3DCarStatus.Driving;
                 this.Dust.active = true;
     
                 // 靠近道路
@@ -203,7 +203,7 @@ export class GamePlayParking3DCar extends GamePlayParking3DEntity
     
                 // 进入道路
                 const radius = road.getCornerRadius();
-                if (this.headDir === this.movingDir)
+                if (this.headOrientation === this.movingOrientation)
                 {
                     await this.movingForwardCorner(radius);
                 }
@@ -284,9 +284,9 @@ export class GamePlayParking3DCar extends GamePlayParking3DEntity
 
             const time = radius * math.HALF_PI / PlayableManagerConfig.getInstance().settings.json.parking3D.max_speed;
             const angle = this.node.eulerAngles
-            switch (this.movingDir)
+            switch (this.movingOrientation)
             {
-                case EEntityDirection.Left:
+                case EEntityOrientation.Left:
                     {
                         const pos = this.node.getPosition().clone()
                         const basePos = pos.add(math.v3(0, 0, -radius))
@@ -301,13 +301,13 @@ export class GamePlayParking3DCar extends GamePlayParking3DEntity
                             })
                             .call(() =>
                             {
-                                this.movingDir = EEntityDirection.Up;
+                                this.movingOrientation = EEntityOrientation.Up;
                                 resolve();
                             })
                             .start();
                     }
                     break
-                case EEntityDirection.Right:
+                case EEntityOrientation.Right:
                     {
                         const pos = this.node.getPosition().clone()
                         const basePos = pos.add(math.v3(0, 0, radius))
@@ -322,13 +322,13 @@ export class GamePlayParking3DCar extends GamePlayParking3DEntity
                             })
                             .call(() =>
                             {
-                                this.movingDir = EEntityDirection.Down;
+                                this.movingOrientation = EEntityOrientation.Down;
                                 resolve();
                             })
                             .start()
                     }
                     break
-                case EEntityDirection.Down:
+                case EEntityOrientation.Down:
                     {
                         const pos = this.node.getPosition().clone()
                         const basePos = pos.add(math.v3(-radius, 0, 0))
@@ -343,13 +343,13 @@ export class GamePlayParking3DCar extends GamePlayParking3DEntity
                             })
                             .call(() =>
                             {
-                                this.movingDir = EEntityDirection.Left;
+                                this.movingOrientation = EEntityOrientation.Left;
                                 resolve();
                             })
                             .start()
                     }
                     break
-                case EEntityDirection.Up:
+                case EEntityOrientation.Up:
                     {
                         const pos = this.node.getPosition().clone()
                         const basePos = pos.add(math.v3(radius, 0, 0))
@@ -364,7 +364,7 @@ export class GamePlayParking3DCar extends GamePlayParking3DEntity
                             })
                             .call(() =>
                             {
-                                this.movingDir = EEntityDirection.Right;
+                                this.movingOrientation = EEntityOrientation.Right;
                                 resolve();
                             })
                             .start()
@@ -386,9 +386,9 @@ export class GamePlayParking3DCar extends GamePlayParking3DEntity
             const dt = radius * math.HALF_PI / PlayableManagerConfig.getInstance().settings.json.parking3D.max_speed;
             const angle = this.node.eulerAngles
             const pos = this.node.getPosition().clone()
-            switch (this.movingDir)
+            switch (this.movingOrientation)
             {
-                case EEntityDirection.Left:
+                case EEntityOrientation.Left:
                     {
                         const pos = this.node.getPosition().clone()
                         const basePos = pos.add(math.v3(0, 0, radius))
@@ -403,13 +403,13 @@ export class GamePlayParking3DCar extends GamePlayParking3DEntity
                             })
                             .call(() =>
                             {
-                                this.movingDir = EEntityDirection.Up;
+                                this.movingOrientation = EEntityOrientation.Up;
                                 resolve();
                             })
                             .start()
                     }
                     break
-                case EEntityDirection.Right:
+                case EEntityOrientation.Right:
                     {
                         const pos = this.node.getPosition().clone()
                         const basePos = pos.add(math.v3(0, 0, -radius))
@@ -423,12 +423,12 @@ export class GamePlayParking3DCar extends GamePlayParking3DEntity
                                 }
                             }).call(() =>
                             {
-                                this.movingDir = EEntityDirection.Down;
+                                this.movingOrientation = EEntityOrientation.Down;
                                 resolve();
                             }).start()
                     }
                     break
-                case EEntityDirection.Down:
+                case EEntityOrientation.Down:
                     {
                         const pos = this.node.getPosition().clone()
                         const basePos = pos.add(math.v3(radius, 0, 0))
@@ -442,12 +442,12 @@ export class GamePlayParking3DCar extends GamePlayParking3DEntity
                                 }
                             }).call(() =>
                             {
-                                this.movingDir = EEntityDirection.Left;
+                                this.movingOrientation = EEntityOrientation.Left;
                                 resolve();
                             }).start()
                     }
                     break
-                case EEntityDirection.Up:
+                case EEntityOrientation.Up:
                     {
                         const pos = this.node.getPosition().clone()
                         const basePos = pos.add(math.v3(-radius, 0, 0))
@@ -461,7 +461,7 @@ export class GamePlayParking3DCar extends GamePlayParking3DEntity
                                 }
                             }).call(() =>
                             {
-                                this.movingDir = EEntityDirection.Right;
+                                this.movingOrientation = EEntityOrientation.Right;
                                 resolve();
                             }).start()
                     }

@@ -1,6 +1,6 @@
 import { _decorator, BoxCollider, math, tween, Tween, Vec3 } from "cc";
 import { PlayableEntity3D } from "../../../framework/internal/entity/playable.entity.3d";
-import { EEntityDirection } from "../../../framework/internal/entity/playable.entity";
+import { EEntityOrientation } from "../../../framework/internal/entity/playable.entity";
 import { PlayableManagerConfig } from "../../../framework/runtime/playable.manager.config";
 const { ccclass, property } = _decorator;
 
@@ -12,7 +12,7 @@ export class GamePlayParking3DEntity extends PlayableEntity3D
         const collider = this.collider as BoxCollider;
         const width = collider.size.x / 2;
         const height = collider.size.z / 2;
-        if (this.headDir === EEntityDirection.Up || this.headDir === EEntityDirection.Down)
+        if (this.headOrientation === EEntityOrientation.Up || this.headOrientation === EEntityOrientation.Down)
         {
             return new Vec3(height, 0, width)
         } else
@@ -21,20 +21,20 @@ export class GamePlayParking3DEntity extends PlayableEntity3D
         }
     }
 
-    protected override onHit(entity: GamePlayParking3DEntity): void
+    protected override async onBeHit(entity: GamePlayParking3DEntity): Promise<void>
     {
-        super.onHit(entity);
+        super.onBeHit(entity);
 
         const isSameDir = (): boolean =>
         {
-            switch (entity.movingDir)
+            switch (entity.movingOrientation)
             {
-                case EEntityDirection.Up:
-                case EEntityDirection.Down:
-                    return this.headDir === EEntityDirection.Up || this.headDir === EEntityDirection.Down
-                case EEntityDirection.Left:
-                case EEntityDirection.Right:
-                    return this.headDir === EEntityDirection.Left || this.headDir === EEntityDirection.Right
+                case EEntityOrientation.Up:
+                case EEntityOrientation.Down:
+                    return this.headOrientation === EEntityOrientation.Up || this.headOrientation === EEntityOrientation.Down
+                case EEntityOrientation.Left:
+                case EEntityOrientation.Right:
+                    return this.headOrientation === EEntityOrientation.Left || this.headOrientation === EEntityOrientation.Right
             }
         }
 

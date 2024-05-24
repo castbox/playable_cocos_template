@@ -7,6 +7,6 @@ export class GamePlayParking3DObstacle extends GamePlayParking3DEntity
 {
        protected override onTriggerEnter(event: ITriggerEvent): void
        {
-           this.onHit(event.otherCollider.node.getComponent(GamePlayParking3DEntity));
+           this.onBeHit(event.otherCollider.node.getComponent(GamePlayParking3DEntity));
        }
 }

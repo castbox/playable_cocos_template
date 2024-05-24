@@ -11,12 +11,12 @@ export class GamePlayParking3DLiftingRod extends GamePlayParking3DEntity
 
     protected override onTriggerEnter(event: ITriggerEvent): void
     {
-        this.onHit(event.otherCollider.node.getComponent(GamePlayParking3DCar));
+        this.onBeHit(event.otherCollider.node.getComponent(GamePlayParking3DCar));
     }
 
-    public override async onHit(entity: GamePlayParking3DCar): Promise<void>
+    public override async onBeHit(entity: GamePlayParking3DCar): Promise<void>
     {
-        super.onHit(entity);
+        super.onBeHit(entity);
 
         await this.lift();
         await this.down();
