@@ -51,7 +51,7 @@ export class GamePlayPokerDeck extends Component
             {
                 try
                 {
-                    const poker: GamePlayPoker = await PlayableManagerResource.loadPrefab(GamePlayPoker, "prefab/poker");
+                    const poker: GamePlayPoker = await PlayableManagerResource.loadPrefab(GamePlayPoker, "poker");
                     utility.setParent(poker.node, this.node);
 
                     let number: number;
