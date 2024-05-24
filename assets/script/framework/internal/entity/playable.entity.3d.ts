@@ -1,11 +1,22 @@
 import { _decorator, Collider, ITriggerEvent, Vec3 } from "cc";
-import { EEntityDirection, PlayableEntity } from "./playable.entity";
+import { EEntityOrientation, PlayableEntity } from "./playable.entity";
 const { ccclass, property } = _decorator;
 
 @ccclass('PlayableEntity3D')
 export class PlayableEntity3D extends PlayableEntity
 {
     protected collider : Collider
+
+    protected headOrientation: EEntityOrientation;
+    protected movingOrientation: EEntityOrientation;
+    public get HeadOrientation(): EEntityOrientation
+    {
+        return this.headOrientation;
+    }
+    public get MovingOrientation(): EEntityOrientation
+    {
+        return this.headOrientation;
+    }
 
     private _onTriggerEnterBindEvent = this.onTriggerEnter.bind(this);
 
@@ -23,18 +34,18 @@ export class PlayableEntity3D extends PlayableEntity
         const angleY = (angle.y + 360) % 360
         if (angleY == 0)
         {
-            this.headDir = EEntityDirection.Right;
+            this.headOrientation = EEntityOrientation.Right;
         }
         else if (angleY == 90) 
         {
-            this.headDir = EEntityDirection.Up;
+            this.headOrientation = EEntityOrientation.Up;
         }
         else if (angleY == 180)
         {
-            this.headDir = EEntityDirection.Left;
+            this.headOrientation = EEntityOrientation.Left;
         } else if (angleY == 270)
         {
-            this.headDir = EEntityDirection.Down;
+            this.headOrientation = EEntityOrientation.Down;
         }
     }
 

@@ -1,7 +1,8 @@
-import { _decorator, Component, Vec3, Node, Vec2 } from "cc";
+import { _decorator, Component, Vec3, Node, Vec2, tween, Quat } from "cc";
+import { PlayablePath } from "../path/playable.path";
 const { ccclass, property } = _decorator;
 
-export enum EEntityDirection
+export enum EEntityOrientation
 {
     Up,
     Down,
@@ -12,18 +13,21 @@ export enum EEntityDirection
 @ccclass('PlayableEntity')
 export class PlayableEntity extends Component
 {
-    protected headDir: EEntityDirection;
-    protected movingDir: EEntityDirection;
+    @property(PlayablePath)
+    public MovePath: PlayablePath;
+
+    protected originPosition: Vec3;
+    protected originEulerAngles: Vec3;
+
+    protected velocity: Vec2;
+    protected headDir: Vec2;
+    protected movingDir: Vec2;
     protected model: Node;
+    protected mass = 1;
 
-    public get HeadDir(): EEntityDirection
+    protected get forward(): Vec2 | Vec3
     {
-        return this.headDir;
-    }
-
-    public get MovingDir(): EEntityDirection
-    {
-        return this.headDir;
+        return null;
     }
 
     public get ColliderSize(): Vec3
@@ -34,6 +38,9 @@ export class PlayableEntity extends Component
     protected override onLoad(): void
     {
         this.model = this.node.children[0];
+
+        this.originPosition = this.node.position.clone();
+        this.originEulerAngles = this.node.eulerAngles.clone();
     }
 
     protected override update(dt: number): void
@@ -42,27 +49,37 @@ export class PlayableEntity extends Component
         this.updateMovement(dt);
     }
 
-    protected onHit(entity: PlayableEntity): void
-    {
-
-    }
-
-    protected hit(entity: PlayableEntity): void
-    {
-
-    }
-
     protected move(delta: Vec2): void
     {
 
     }
 
-    protected updateDirection(dt : number)
+    protected async onBeHit(entity: PlayableEntity): Promise<void>
     {
-        
+
     }
 
-    protected updateMovement(dt : number)
+    protected async onHit(entity: PlayableEntity): Promise<void>
+    {
+
+    }
+
+    protected async applyImpulse(velocity: Vec3, duration: number): Promise<void>
+    {
+
+    }
+
+    protected async moveByPath(): Promise<void>
+    {
+
+    }
+
+    protected updateDirection(dt: number)
+    {
+
+    }
+
+    protected updateMovement(dt: number)
     {
 
     }
