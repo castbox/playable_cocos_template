@@ -7,7 +7,7 @@ export class PlayableManagerResource
     {
         return new Promise((resolve, reject) =>
         {
-            resources.load(path, Prefab, (error, prefab) =>
+            resources.load(`prefab/${path}`, Prefab, (error, prefab) =>
             {
                 if (error)
                 {
@@ -70,7 +70,7 @@ export class PlayableManagerResource
     {
         return new Promise((resolve, reject) =>
         {
-            resources.load(path, AudioClip, (error, clip) =>
+            resources.load(`audio/${path}`, AudioClip, (error, clip) =>
             {
                 if (error)
                 {

@@ -31,7 +31,7 @@ export class PlayableManagerAudio extends SingletonComponent<PlayableManagerAudi
         
         try
         {
-            const bmgClip = await PlayableManagerResource.LoadAudioClip(`audio/${bgm}`)
+            const bmgClip = await PlayableManagerResource.LoadAudioClip(bgm)
             this._bgmAudioSource.clip = bmgClip;
             this._bgmAudioSource.loop = loop;
             this._bgmAudioSource.volume = this._volume;
@@ -89,7 +89,7 @@ export class PlayableManagerAudio extends SingletonComponent<PlayableManagerAudi
     {
         try
         {
-            const sfxClip = await PlayableManagerResource.LoadAudioClip(`audio/${sfx}`);
+            const sfxClip = await PlayableManagerResource.LoadAudioClip(sfx);
             this._sfxAudioSource.loop = false;
             this._sfxAudioSource.playOneShot(sfxClip, this._volume);
         }
@@ -97,5 +97,10 @@ export class PlayableManagerAudio extends SingletonComponent<PlayableManagerAudi
         {
             console.error(`Failed to load SFX: ${error}`);
         }
+    }
+
+    public stopSFX()
+    {
+        this._sfxAudioSource.stop();
     }
 }

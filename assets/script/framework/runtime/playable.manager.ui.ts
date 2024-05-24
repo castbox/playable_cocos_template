@@ -45,7 +45,7 @@ export class PlayableManagerUI extends SingletonComponent<PlayableManagerUI>
                     return;
                 }
 
-                const ui = await PlayableManagerResource.loadPrefab<PlayableUI>(PlayableUI, `prefab/ui/${prefabName}`);
+                const ui = await PlayableManagerResource.loadPrefab<PlayableUI>(PlayableUI, `ui/${prefabName}`);
                 ui.node.setParent(this._canvas.node)
                 this._openList.set(prefabName, ui);
                 await ui.init();
