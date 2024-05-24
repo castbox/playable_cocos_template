@@ -27,8 +27,9 @@ export class TouchData
         const screenPos = touch.getLocation().clone();
         const deltaScreen = screenPos.subtract(startScreenPos);
 
-        const startWorldPos = PlayableManagerScene.getInstance().Camera.screenToWorld(new Vec3(startScreenPos.x, startScreenPos.y, 0)).clone();
-        const worldPos = PlayableManagerScene.getInstance().Camera.screenToWorld(new Vec3(screenPos.x, screenPos.y, 0)).clone();
+        const startWorldPos = PlayableManagerScene.getInstance().Camera.Camera.screenToWorld(new Vec3(startScreenPos.x, startScreenPos.y, 0)).clone();
+        startWorldPos.z = 0;
+        const worldPos = PlayableManagerScene.getInstance().Camera.Camera.screenToWorld(new Vec3(screenPos.x, screenPos.y, 0)).clone();
         worldPos.z = 0;
         const deltaWorldPos = worldPos.subtract(startWorldPos);
         

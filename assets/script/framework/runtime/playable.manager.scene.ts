@@ -7,6 +7,7 @@ import { utility } from '../utils/utility';
 import { PlayableManagerConfig } from './playable.manager.config';
 import { PlayableManagerAudio } from './playable.manager.audio';
 import { PlayableManagerGuide } from './playable.manager.guide';
+import { PlayableCamera } from '../internal/camera/playable.camera';
 const { ccclass, property } = _decorator;
 
 @ccclass('PlayableManagerScene')
@@ -21,8 +22,8 @@ export class PlayableManagerScene extends SingletonComponent<PlayableManagerScen
         return this._gamePlayList;
     }
 
-    private _camera: Camera = null;
-    public get Camera(): Camera
+    private _camera: PlayableCamera = null;
+    public get Camera(): PlayableCamera
     {
         return this._camera;
     }
@@ -56,7 +57,7 @@ export class PlayableManagerScene extends SingletonComponent<PlayableManagerScen
 
     protected onLoad(): void
     {
-        this._camera = this.node.getComponentInChildren(Camera);
+        this._camera = this.node.getComponentInChildren(PlayableCamera);
         this._gamePlayList = this.node.getComponentsInChildren(PlayableGamePlayCore);
 
         // 注册事件
