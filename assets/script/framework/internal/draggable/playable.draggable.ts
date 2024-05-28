@@ -45,7 +45,7 @@ export class PlayableDraggable extends Component
 
     private onTouchStart(event: EventTouch)
     {
-
+        this._lastTouchData.parsing(event);
     }
 
     private onTouchMove(event: EventTouch)
@@ -93,7 +93,6 @@ export class PlayableDraggable extends Component
 
         if (!this._isDragging)
         {
-            this._lastTouchData.parsing(event);
             this.onClick();
             return;
         }

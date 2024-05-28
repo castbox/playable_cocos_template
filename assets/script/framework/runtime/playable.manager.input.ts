@@ -75,11 +75,11 @@ export class PlayableManagerInput extends SingletonComponent<PlayableManagerInpu
         }
 
         this._lastTouchData.parsing(event);
-        PlayableManagerScene.getInstance().Camera.Camera.screenPointToRay(screenPos.x, screenPos.y, this._ray)
-        if (PhysicsSystem && !PhysicsSystem.instance.raycast(this._ray)) 
-        {
-            return;
-        }
+        // PlayableManagerScene.getInstance().Camera.Camera.screenPointToRay(screenPos.x, screenPos.y, this._ray)
+        // if (PhysicsSystem && !PhysicsSystem.instance.raycast(this._ray)) 
+        // {
+        //     return;
+        // }
 
         if (!this._isDragging)
         {
