@@ -1,5 +1,5 @@
 import { _decorator, CCBoolean, CCInteger, Animation, Enum, Node, Sprite, tween, Vec3 } from 'cc';
-import { DragInfo, PlayableDraggable } from '../../../framework/internal/draggable/playable.draggable';
+import { PlayableDraggable } from '../../../framework/internal/draggable/playable.draggable';
 import { PlayableManagerEvent } from '../../../framework/runtime/playable.manager.message';
 import { PlayableManagerConfig } from '../../../framework/runtime/playable.manager.config';
 import { IGamePlayPokerContainer } from './gamePlay.poker.container';
