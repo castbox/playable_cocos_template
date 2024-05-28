@@ -14,6 +14,12 @@ export class PlayableGamePlayCore extends Component
     protected onCanvasResizeBindEvent = this.onCanvasResize.bind(this);
     protected onSceneClickBindEvent = this.onSceneClick.bind(this);
 
+    protected isGameStart: boolean = false;
+    public get IsGameStart(): boolean
+    {
+        return this.isGameStart;
+    }
+
     public get IsActive(): boolean
     {
         return this.isActive;
@@ -39,6 +45,7 @@ export class PlayableGamePlayCore extends Component
     {
         PlayableManagerAudio.getInstance().unmute()
         PlayableManagerEvent.getInstance().emit("onGameStart");
+        this.isGameStart = true;
     }
 
     public async onGameFinish(): Promise<void>

@@ -74,7 +74,10 @@ export class PlayableManagerScene extends SingletonComponent<PlayableManagerScen
 
     protected update(deltaTime: number): void
     {
-        this._currentGamePlay?.onGameUpdate(deltaTime);
+        if (this._currentGamePlay && this._currentGamePlay.IsGameStart)
+        {
+            this._currentGamePlay?.onGameUpdate(deltaTime);
+        }
     }
 
     protected onDestroy(): void
