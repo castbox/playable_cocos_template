@@ -4,6 +4,8 @@ import { PlayableGamePlayCore } from "../../../framework/internal/gamePlay/playa
 import { PlayableManagerEvent } from "../../../framework/runtime/playable.manager.message";
 import { PlayableManagerVFX } from "../../../framework/runtime/playable.manager.vfx";
 import { GamePlayFindOutMagnifierTarget } from "./gamePlay.findOutMagnifier.target";
+import { PlayableManagerAudio } from "../../../framework/runtime/playable.manager.audio";
+import { utility } from "../../../framework/utils/utility";
 const { ccclass, property } = _decorator;
 
 @ccclass('GamePlayFindOutMagnifierLevel')
@@ -56,8 +58,12 @@ export class GamePlayFindOutMagnifierLevel extends PlayableGamePlayCore
     {
         await this.magnifier.findOut(target);
 
-        PlayableManagerVFX.getInstance().playEffectAtWsPosition("effect", target.node.getWorldPosition());
         PlayableManagerVFX.getInstance().playEffectAtWsPosition("poof", target.node.getWorldPosition());
+
+        await utility.sleep(0.3);
+
+        PlayableManagerVFX.getInstance().playEffectAtWsPosition("effect", target.node.getWorldPosition());
+        PlayableManagerAudio.getInstance().playSFX("success");
 
         target.node.active = false;
         target.Node_TargetDiff.active = false;
