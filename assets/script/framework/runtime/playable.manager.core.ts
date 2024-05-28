@@ -1,4 +1,4 @@
-import { _decorator, Canvas, CCString, Component, director, Enum, find, Node, ResolutionPolicy, Vec2, view } from 'cc';
+import { _decorator, Canvas, CCFloat, CCString, Component, director, Enum, find, Node, ResolutionPolicy, Vec2, view } from 'cc';
 import SingletonComponent from '../utils/singletonOf.component';
 import { PlayableGamePlayCore } from '../internal/gamePlay/playable.gamePlay.core';
 import { PlayableManagerEvent } from './playable.manager.message';
@@ -24,6 +24,8 @@ export class PlayableManagerCore extends SingletonComponent<PlayableManagerCore>
 {
   @property({type: Enum(EResolutionPolicy)})
   public WidthResolutionPolicy: EResolutionPolicy = EResolutionPolicy.FIXED_WIDTH;
+  @property(CCFloat)
+  public ReferenceMultiplier: number = 1;
 
   @property({type: Enum(EResolutionPolicy)})
   public HeightResolutionPolicy: EResolutionPolicy = EResolutionPolicy.FIXED_HEIGHT;
@@ -94,7 +96,7 @@ export class PlayableManagerCore extends SingletonComponent<PlayableManagerCore>
     this.scheduleOnce(() =>
     {
       doOrientation();
-    }, 0.05)
+    }, 0);
   }
 
   /**
@@ -109,7 +111,7 @@ export class PlayableManagerCore extends SingletonComponent<PlayableManagerCore>
 
     console.log("转换到竖屏")
 
-    view.setDesignResolutionSize(720, 1280, this.HeightResolutionPolicy)
+    view.setDesignResolutionSize(720 * this.ReferenceMultiplier, 1280 * this.ReferenceMultiplier, this.HeightResolutionPolicy)
     this._sceneOrientation = EScreenOrientation.Portrait;
     PlayableManagerEvent.getInstance().emit("onOrientationChanged", EScreenOrientation.Portrait);
   }
@@ -126,7 +128,7 @@ export class PlayableManagerCore extends SingletonComponent<PlayableManagerCore>
 
     console.log("转换到横屏")
 
-    view.setDesignResolutionSize(1280, 720, this.WidthResolutionPolicy)
+    view.setDesignResolutionSize(1280 * this.ReferenceMultiplier, 720 * this.ReferenceMultiplier, this.WidthResolutionPolicy)
     this._sceneOrientation = EScreenOrientation.Landscape;
     PlayableManagerEvent.getInstance().emit("onOrientationChanged", EScreenOrientation.Landscape);
   }
