@@ -64,11 +64,17 @@ export class PlayableManagerVFX extends SingletonComponent<PlayableManagerVFX>
 
     private onCanvasResize()
     {
+        if (this._camera == null)
+            return;
+
         this._camera.orthoHeight = PlayableManagerScene.getInstance().Camera.Camera.orthoHeight;
     }
 
     private onOrientationChange(orientation: EScreenOrientation)
     {
+        if (this._camera == null)
+            return;
+
         this._camera.orthoHeight = PlayableManagerScene.getInstance().Camera.Camera.orthoHeight;
     }
 }
